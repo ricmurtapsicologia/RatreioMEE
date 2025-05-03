@@ -2,334 +2,312 @@
 <html lang="pt-BR">
 
 <head>
-	<!-- Metadados essenciais -->
+	<!-- 1. Charset sempre em primeiro lugar -->
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 2. Compatibilidade e viewport -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 3. Título e descrição para SEO -->
 	<title>SMI 1.1 – Inventário de Modos Esquemáticos</title>
-	<meta name="description" content="SMI 1.1: Avalie os modos esquemáticos com base na Terapia dos Esquemas. Entenda seus padrões emocionais e comportamentais com este inventário clínico.">
-	<meta name="author" content="Richelmy Murta">
+	<meta name="description" content="Autoavaliação clínica baseada na Terapia dos Esquemas. Identifique seus modos de enfrentamento, visualize os resultados e gere um PDF para acompanhamento terapêutico.">
+	<meta name="author" content="Richelmy Murta Pinto">
 	<meta name="robots" content="index, follow">
-	<link rel="canonical" href="https://ricmurtapsicologia.github.io/inventarioModos/">
+	<!-- 4. URL canônica corrigida -->
+	<link rel="canonical" href="https://ricmurtapsicologia.github.io/RastreioMEE/">
+	<!-- 5. Ícone -->
 	<link rel="icon" href="https://i.pinimg.com/736x/ea/e6/9b/eae69b98b402095e5acd1a817bb6e1ad.jpg" type="image/jpeg">
-	<!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+	<!-- 6. Cor do tema para navegadores móveis -->
+	<meta name="theme-color" content="#c8a165">
+	<!-- 7. Open Graph (Facebook, LinkedIn, WhatsApp) -->
 	<meta property="og:type" content="website">
 	<meta property="og:locale" content="pt_BR">
-	<meta property="og:url" content="https://ricmurtapsicologia.github.io/inventarioModos/">
+	<meta property="og:url" content="https://ricmurtapsicologia.github.io/RastreioMEE/">
 	<meta property="og:title" content="SMI 1.1 – Inventário de Modos Esquemáticos">
-	<meta property="og:description" content="Entenda seus padrões emocionais e modos disfuncionais com base na Terapia dos Esquemas. Resultados visuais e PDF personalizado.">
+	<meta property="og:description" content="Entenda seus padrões emocionais e modos disfuncionais com base na Terapia dos Esquemas. Resultados visuais, PDF personalizado e envio via WhatsApp.">
 	<meta property="og:image" content="https://i.pinimg.com/736x/58/93/ad/5893ad216808cad704a9071a84e53fe0.jpg">
-	<!-- Twitter Card -->
+	<!-- 8. Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="SMI 1.1 – Inventário de Modos Esquemáticos">
-	<meta name="twitter:description" content="Autoavaliação baseada na Terapia dos Esquemas. Gere PDF e compartilhe com seu psicólogo.">
+	<meta name="twitter:description" content="Autoavaliação com base na Terapia dos Esquemas. Gere um relatório visual e compartilhe com seu psicólogo.">
 	<meta name="twitter:image" content="https://i.pinimg.com/736x/58/93/ad/5893ad216808cad704a9071a84e53fe0.jpg">
+	<!-- 9. Estilos externos -->
+	<link rel="preload" href="styles.css" as="style">
+	<link rel="stylesheet" href="styles.css">
 	<!-- CSS3 completo -->
 	<style>
 		:root {
-		  --bg-light: #f4f4f9;
-		  --bg-dark: #1f1f1f;
-		  --accent: #c8a165;
-		  --text: #333;
+		  --bg-light:   #f4f4f9;
+		  --bg-dark:    #1f1f1f;
+		  --accent:     #c8a165;
+		  --text:       #333;
 		  --text-light: #fff;
-		  --gap: 1rem;
-		  --radius: 0.5rem;
-		  --transition: 0.4s ease-in-out;
-		  --whatsapp: #25d366;
-		  --pdf: #d32f2f;
+		  --neutral:    #e0e0e0;
+		  --whatsapp:   #25d366;
+		  --pdf:        #d32f2f;
+		  --shadow:     rgba(0,0,0,0.15);
+		  --gap:        1rem;
+		  --radius:     .5rem;
+		  --trans:      .4s ease-in-out;
 		}
 		
-		*, *::before, *::after {
+		/* Reset */
+		*,
+		*::before,
+		*::after {
 		  box-sizing: border-box;
 		  margin: 0;
 		  padding: 0;
 		}
 		
+		/* Base */
 		html, body {
-		  width: 100%;
-		  height: 100%;
+		  width: 100%; height: 100%;
 		  font-family: 'Segoe UI', sans-serif;
 		  background: var(--bg-light);
 		  color: var(--text);
 		  overflow-x: hidden;
-		  transition: background var(--transition), color var(--transition);
+		  transition: background var(--trans), color var(--trans);
 		}
-		
 		body.dark {
 		  background: var(--bg-dark);
 		  color: var(--text-light);
 		}
-		
 		a {
 		  color: inherit;
 		  text-decoration: none;
 		}
 		
+		/* Botão Modo Escuro */
 		#darkModeToggle {
-		  position: fixed;
-		  top: var(--gap);
-		  right: var(--gap);
-		  background: none;
-		  border: none;
-		  cursor: pointer;
-		  font-size: 1.5rem;
-		  color: currentColor;
-		  transition: color var(--transition);
-		  z-index: 1001;
+		  position: fixed; top: var(--gap); right: var(--gap);
+		  background: none; border: none; cursor: pointer;
+		  font-size: 1.5rem; color: currentColor;
+		  transition: color var(--trans); z-index: 1001;
 		}
-		
 		body.dark #darkModeToggle {
 		  color: var(--text-light);
 		}
 		
+		/* Splash */
 		#splash {
-		  position: fixed;
-		  inset: 0;
-		  background: var(--accent);
-		  color: var(--text-light);
-		  display: flex;
-		  flex-direction: column;
-		  align-items: center;
-		  justify-content: center;
-		  gap: var(--gap);
-		  text-align: center;
-		  transition: opacity var(--transition), visibility var(--transition);
+		  position: fixed; inset: 0;
+		  background: var(--accent); color: var(--text-light);
+		  display: flex; flex-direction: column;
+		  align-items: center; justify-content: center;
+		  gap: var(--gap); text-align: center;
+		  transition: opacity var(--trans), visibility var(--trans);
 		  z-index: 1000;
 		}
-		
 		#splash.hidden {
-		  opacity: 0;
-		  visibility: hidden;
+		  opacity: 0; visibility: hidden;
 		}
 		
+		/* Hero */
 		.hero {
-		  width: 100%;
-		  display: flex;
-		  justify-content: center;
-		  align-items: center;
-		  margin-top: var(--gap);
-		  margin-bottom: var(--gap);
-		  padding: 0 var(--gap);
+		  display: flex; justify-content: center; align-items: center;
+		  margin: var(--gap) 0; padding: 0 var(--gap);
 		}
-		
 		.hero-img {
-		  width: 100%;
-		  max-width: 640px;
+		  width: 100%; max-width: 640px;
 		  border-radius: var(--radius);
 		  object-fit: cover;
-		  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		  transition: transform 0.3s ease;
+		  box-shadow: 0 4px 12px var(--shadow);
+		  transition: transform .3s ease;
 		}
 		
+		/* Container */
 		.container {
-		  max-width: 960px;
-		  margin: 0 auto;
+		  max-width: 960px; margin: 0 auto;
 		  padding: 0 var(--gap);
-		  opacity: 0;
-		  transform: translateY(10%);
-		  transition: opacity var(--transition), transform var(--transition);
+		  opacity: 0; transform: translateY(10%);
+		  transition: opacity var(--trans), transform var(--trans);
 		}
-		
 		.container.show {
-		  opacity: 1;
-		  transform: translateY(0);
+		  opacity: 1; transform: translateY(0);
 		}
 		
+		/* Intro */
 		.intro {
-		  background: var(--accent);
-		  color: var(--text-light);
-		  padding: 1.5rem;
-		  border-radius: var(--radius);
+		  background: var(--accent); color: var(--text-light);
+		  padding: 1.5rem; border-radius: var(--radius);
 		  margin: var(--gap) 0;
-		  transition: background var(--transition), color var(--transition);
+		  transition: background var(--trans), color var(--trans);
 		}
-		
 		.intro h2 {
-		  color: var(--bg-light);
-		  margin-bottom: 0.5rem;
+		  color: var(--bg-light); margin-bottom: .5rem;
 		}
-		
 		.intro p {
-		  margin-bottom: 0.75rem;
-		  text-align: justify;
+		  margin-bottom: .75rem; text-align: justify;
 		}
 		
+		/* Form Fields */
 		.field {
 		  margin-bottom: 1.5rem;
 		}
-		
 		.field label {
-		  display: block;
-		  font-weight: 600;
-		  margin-bottom: 0.25rem;
+		  display: block; font-weight: 600; margin-bottom: .25rem;
 		}
-		
 		.field input {
-		  width: 100%;
-		  padding: 0.75rem;
+		  width: 100%; padding: .75rem;
 		  border: 2px solid var(--accent);
 		  border-radius: var(--radius);
-		  transition: border-color var(--transition);
+		  transition: border-color var(--trans);
 		}
 		
+		/* Questions */
 		.question {
-		  margin-bottom: 2rem;
-		  padding: 1.5rem;
+		  margin-bottom: 2rem; padding: 1.5rem;
 		  border: 1px solid var(--accent);
 		  border-radius: var(--radius);
-		  background-color: #fff;
+		  background: var(--text-light);
 		}
-		
 		body.dark .question {
-		  background-color: #2a2a2a;
+		  background: #2a2a2a;
 		}
-		
 		.question p {
-		  margin-bottom: 0.75rem;
-		  text-align: justify;
+		  margin-bottom: .75rem; text-align: justify;
 		}
 		
+		/* Options */
 		.options-inline {
-		  display: flex;
-		  flex-wrap: wrap;
-		  gap: 0.75rem;
-		  margin-top: 0.75rem;
+		  display: flex; flex-wrap: wrap;
+		  gap: .75rem; margin-top: .75rem;
 		}
 		
+		/* Actions */
 		.actions {
-		  display: flex;
-		  flex-wrap: wrap;
-		  justify-content: center;
-		  gap: 1rem;
+		  display: flex; flex-wrap: wrap;
+		  justify-content: center; gap: 1rem;
 		  margin: 2rem 0;
 		}
-		
 		.actions button {
-		  border: none;
-		  border-radius: var(--radius);
-		  padding: 0.75rem 2rem;
-		  cursor: pointer;
-		  transition: transform var(--transition);
-		  min-width: 180px;
-		  display: flex;
-		  align-items: center;
-		  justify-content: center;
-		  gap: 0.5rem;
-		  font-size: 1rem;
-		  color: var(--text-light);
+		  display: flex; align-items: center; justify-content: center;
+		  gap: .5rem; min-width: 180px;
+		  border: none; border-radius: var(--radius);
+		  padding: .75rem 2rem; cursor: pointer;
+		  transition: transform var(--trans);
+		  color: var(--text-light); font-size: 1rem;
 		}
-		
 		.actions button:hover {
 		  transform: scale(1.05);
 		}
+		#btn-gerar        { background: var(--accent); }
+		#send-whatsapp    { background: var(--whatsapp); }
+		#download-pdf     { background: var(--pdf); }
 		
-		#btn-gerar {
-		  background: var(--accent);
-		}
-		
-		#send-whatsapp {
-		  background: var(--whatsapp);
-		}
-		
-		#download-pdf {
-		  background: var(--pdf);
-		}
-		
+		/* Results Cards */
 		.cards {
 		  display: grid;
-		  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-		  gap: var(--gap);
-		  margin-bottom: var(--gap);
+		  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+		  gap: var(--gap); margin-bottom: var(--gap);
 		}
-		
 		.card {
-		  background: var(--text-light);
-		  padding: var(--gap);
-		  border-radius: var(--radius);
-		  text-align: center;
-		  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		  padding: var(--gap); border-radius: var(--radius);
+		  text-align: center; background: var(--text-light);
+		  box-shadow: 0 2px 4px var(--shadow);
 		}
-		
 		body.dark .card {
-		  background: #222;
-		  color: var(--text-light);
+		  background: #222; color: var(--text-light);
 		}
 		
+		/* Footer */
 		footer {
-		  text-align: center;
-		  padding: 2rem 1rem;
-		  font-size: 0.9rem;
+		  text-align: center; padding: 2rem 1rem;
+		  font-size: .9rem; background: var(--bg-light);
 		  color: var(--text);
-		  background-color: var(--bg-light);
 		}
-		
 		body.dark footer {
-		  background-color: var(--bg-dark);
+		  background: var(--bg-dark);
 		}
 		
-		/* Responsividade Mobile First */
+		/* Thermometer */
+		.thermometer {
+		  position: relative; width: 100%; height: 120px;
+		  background: var(--neutral); border-radius: var(--radius);
+		  overflow: hidden; margin: 1rem 0;
+		}
+		.thermometer-fill {
+		  position: absolute; bottom: 0; width: 100%;
+		  background: #3498db; transition: height .4s ease;
+		}
+		
+		/* Responsividade */
 		@media (max-width: 768px) {
-		  .container {
-		    padding: 0 1rem;
-		  }
-		
-		  .actions {
-		    flex-direction: column;
-		    gap: 0.75rem;
-		  }
-		
-		  .hero-img {
-		    max-width: 100%;
-		  }
-		
-		  .intro, .question, .field {
-		    padding: 1rem;
-		  }
+		  .container { padding: 0 1rem; }
+		  .actions  { flex-direction: column; gap: .75rem; }
+		  .hero-img { max-width: 100%; }
+		  .intro,
+		  .question,
+		  .field    { padding: 1rem; }
 		}
+		
+		
 	</style>
 </head>
 
 <body>
-	<button id="darkModeToggle">🌙</button>
-	<div id="splash">
+	<!-- Tema -->
+	<button id="darkModeToggle" class="theme-toggle" aria-label="Ativar ou desativar modo escuro">🌙</button>
+	<!-- Splash -->
+	<div id="splash" role="status" aria-live="polite" class="splash">
 		<h1>Bem-vindo ao SMI 1.1</h1>
-		<p>Carregando avaliação...</p>
+		<p>Carregando avaliação…</p>
 	</div>
-	<main id="mainContent" class="container show">
-		<section class="hero">
-			<img src="https://i.pinimg.com/736x/58/93/ad/5893ad216808cad704a9071a84e53fe0.jpg" alt="Imagem de destaque SMI 1.1" class="hero-img">
+	<!-- Conteúdo -->
+	<main id="mainContent" class="container visible" tabindex="-1">
+		<!-- Hero -->
+		<section class="hero" aria-label="Imagem de destaque">
+			<img src="https://i.pinimg.com/736x/58/93/ad/5893ad216808cad704a9071a84e53fe0.jpg" alt="Saúde emocional e modos esquemáticos" class="hero-img" />
 		</section>
-		<section class="intro">
-			<h2>Saudações!</h2>
-			<p style="margin-top: 1rem;"> Este formulário foi feito para ajudar você a refletir sobre seus sentimentos, pensamentos e formas de reagir diante dos desafios da vida. Ele se baseia na Terapia dos Esquemas, proposta por Jeffrey Young, e avalia os chamados *Modos de Enfrentamento Esquemáticos*. </p>
-			<p> Para cada afirmação, marque um número de <strong>1 a 6</strong>, de acordo com o quanto ela combina com a sua experiência nos últimos 6 meses: <br><strong>1</strong> – Nunca ou quase nunca foi assim <br><strong>2</strong> – Raramente foi assim <br><strong>3</strong> – Às vezes foi assim <br><strong>4</strong> – Frequentemente foi assim <br><strong>5</strong> – Quase sempre foi assim <br><strong>6</strong> – Sempre ou quase sempre foi exatamente assim </p>
-			<p> Não existe resposta certa ou errada. O importante é que você seja sincero, marcando o número que mais representa como você realmente se sente ou age, e não como gostaria de ser. </p>
+		<!-- Intro -->
+		<section class="intro" aria-labelledby="intro-heading">
+			<h2 id="intro-heading">Saudações!</h2>
+			<p> Este formulário ajuda você a refletir sobre sentimentos, pensamentos e reações, baseado na Terapia dos Esquemas (Young), avaliando seus <em>Modos de Enfrentamento Esquemáticos</em>. </p>
+			<p>Marque de <strong>1 a 6</strong> conforme sua experiência nos últimos 6 meses:</p>
+			<ul>
+				<li><strong>1</strong> – Nunca ou quase nunca</li>
+				<li><strong>2</strong> – Raramente</li>
+				<li><strong>3</strong> – Às vezes</li>
+				<li><strong>4</strong> – Frequentemente</li>
+				<li><strong>5</strong> – Quase sempre</li>
+				<li><strong>6</strong> – Sempre ou quase sempre</li>
+			</ul>
+			<p> Não há resposta certa ou errada. Seja sincero ao marcar como você realmente se sente. </p>
 		</section>
-		<form id="smi-form">
+		<!-- Formulário -->
+		<form id="smi-form" aria-labelledby="intro-heading">
 			<div class="field">
 				<label for="name">Nome Completo</label>
-				<input type="text" id="name" required>
+				<input type="text" id="name" name="name" autocomplete="name" required />
 			</div>
 			<div class="field">
 				<label for="date">Data</label>
-				<input type="date" id="date" required>
+				<input type="date" id="date" name="date" required />
 			</div>
-			<div id="questions"></div>
+			<div id="questions" aria-live="polite"></div>
 			<div class="actions">
 				<button type="submit" id="btn-gerar">
-					<i class="fas fa-chart-line"></i> Gerar Resultados </button>
-				<button type="button" id="send-whatsapp" style="display: none;">
-					<i class="fab fa-whatsapp"></i> Enviar ao Psicólogo </button>
-				<button type="button" id="download-pdf" style="display: none;">
-					<i class="fas fa-file-pdf"></i> Baixar PDF </button>
+					<span aria-hidden="true">📊</span> Gerar Resultados </button>
+				<button type="button" id="send-whatsapp" class="hidden">
+					<span aria-hidden="true">💬</span> Enviar ao Psicólogo </button>
+				<button type="button" id="download-pdf" class="hidden">
+					<span aria-hidden="true">📄</span> Baixar PDF </button>
 			</div>
 		</form>
-		<section id="results" class="hidden">
+		<!-- Resultados -->
+		<section id="results" class="hidden" aria-labelledby="summary-heading">
 			<p id="summary"></p>
 			<div id="mode-cards" class="cards"></div>
 		</section>
 	</main>
-	<footer style="text-align: center; margin-top: 2rem;"> Desenvolvido por Richelmy Murta Pinto – Psicólogo Clínico. Especialista em Terapia Cognitivo-Comportamental. </footer>
+	<!-- Footer -->
+	<footer role="contentinfo" class="footer">
+		<div class="footer__content">
+			<p>© 2025 <strong>Richelmy Murta Pinto</strong>. Todos os direitos reservados.</p>
+			<p>Psicólogo Clínico | Especialista em Terapia Cognitivo-Comportamental</p>
+		</div>
+	</footer>
+	<!-- Biblioteca PDF -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 <!-- Módulos JavaScript embutido -->
@@ -525,214 +503,189 @@
 	
 	
 	
-	const severity = pct =>
-	  pct < 34 ? ['green','Leve'] :
-	  pct < 67 ? ['orange','Moderado'] :
-	  ['red','Grave'];
+	// Constantes de seleção de DOM
+	  const $questions   = document.getElementById('questions');
+	  const $results     = document.getElementById('results');
+	  const $modeCards   = document.getElementById('mode-cards');
+	  const $summary     = document.getElementById('summary');
+	  const $btnWhatsApp = document.getElementById('send-whatsapp');
+	  const $btnPDF      = document.getElementById('download-pdf');
+	  const $form        = document.getElementById('smi-form');
+	  const $nameInput   = document.getElementById('name');
+	  const $dateInput   = document.getElementById('date');
 	
-	function renderQuestions() {
-	  const container = document.getElementById('questions');
-	  container.innerHTML = questions.map(q => `
-	    <div class="question" id="q${q.id}">
-	      <p style="text-align: justify;"><strong>${q.id}.</strong> ${q.text}</p>
-	      <div class="options-inline">
-	        ${[1,2,3,4,5,6].map(v =>
-	          `<label><input type="radio" name="q${q.id}" value="${v}" required> ${v}</label>`
-	        ).join('')}
-	      </div>
-	    </div>
-	  `).join('');
-	}
+	  // Classificação de severidade
+	  const getSeverity = pct =>
+	    pct < 34 ? ['green','Leve']
+	    : pct < 67 ? ['orange','Moderado']
+	    : ['red','Grave'];
 	
-	function collectAnswers() {
-	  return questions.map(q => {
-	    const el = document.querySelector(`input[name="q${q.id}"]:checked`);
-	    return el ? Number(el.value) : null;
-	  });
-	}
-	
-	function validateAnswers(ans) {
-	  return ans.every(v => v !== null);
-	}
-	
-	function calculateResults(ans) {
-	  return modes.map(mode => {
-	    const sum = mode.items.reduce((a,i) => a + ans[i-1], 0);
-	    const pct = Math.round((sum / (mode.items.length * 6)) * 100);
-	    let [color, label] = severity(pct);
-	
-	    if (mode.name === "Criança Feliz" || mode.name === "Adulto Saudável") {
-	      color = '#3498db';
-	      label = pct >= 67 ? 'Desenvolvido' : pct >= 34 ? 'Moderado' : 'Pouco Desenvolvido';
-	    }
-	
-	    return { name: mode.name, pct, label, color, desc: descriptions[mode.name] };
-	  });
-	}
-	
-	function showResults(results) {
-	  const graves = results.filter(r =>
-	    r.label === 'Grave' &&
-	    r.name !== "Criança Feliz" &&
-	    r.name !== "Adulto Saudável"
-	  );
-	
-	  const relevantes = results.filter(r =>
-	    r.label === 'Grave' ||
-	    r.name === "Criança Feliz" ||
-	    r.name === "Adulto Saudável"
-	  );
-	
-	  document.getElementById('results').style.display = 'block';
-	  document.getElementById('send-whatsapp').style.display = 'inline-block';
-	  document.getElementById('download-pdf').style.display = 'inline-block';
-	
-	  document.getElementById('summary').innerText =
-	    graves.length === 0
-	      ? "Nenhum modo disfuncional grave foi identificado."
-	      : `Modos esquemáticos disfuncionais identificados: ${graves.length}.`;
-	
-	  document.getElementById('mode-cards').innerHTML = relevantes.map(r => `
-	    <div class="card ${r.name === 'Criança Feliz' || r.name === 'Adulto Saudável' ? 'saude' : ''}">
-	      <h3>${r.name}</h3>
-	      <div class="thermometer">
-	        <div class="thermometer-fill" style="background:${r.color}; height: ${r.pct}%;"></div>
-	      </div>
-	      <p><strong>${r.pct}%</strong> (${r.label})</p>
-	      <p><em>${r.desc}</em></p>
-	    </div>
-	  `).join('');
-	}
-	
-	document.getElementById('download-pdf').addEventListener('click', () => {
-	  const { jsPDF } = window.jspdf;
-	  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-	
-	  const name = document.getElementById('name').value;
-	  const date = document.getElementById('date').value;
-	
-	  const results = Array.from(document.querySelectorAll('#mode-cards .card'))
-	    .map(card => ({
-	      name: card.querySelector('h3').innerText,
-	      pct: card.querySelector('p strong').innerText,
-	      label: card.querySelector('p').innerText.split(')')[1].trim(),
-	      desc: card.querySelector('p em').innerText
-	    }));
-	
-	  let y = 20;
-	  const margin = 15;
-	  const lineHeight = 7;
-	  const pageHeight = doc.internal.pageSize.height;
-	
-	  doc.setFont('Times', 'Normal');
-	  doc.setFontSize(14);
-	  doc.text(`SMI 1.1 – Inventário de Modos Esquemáticos`, margin, y); y += lineHeight + 2;
-	
-	  doc.setFontSize(12);
-	  doc.text(`Nome: ${name}`, margin, y); y += lineHeight;
-	  doc.text(`Data: ${date}`, margin, y); y += lineHeight;
-	
-	  y += 5;
-	  doc.setFontSize(11);
-	  doc.text(
-	    `Este inventário avalia os modos de enfrentamento esquemáticos disfuncionais com base na Terapia dos Esquemas (Young).`, 
-	    margin, y, { maxWidth: 180 }
-	  ); y += lineHeight * 2;
-	
-	  doc.text(
-	    `Modos são estados emocionais ou padrões de comportamento ativados por situações que despertam vulnerabilidades. Modos disfuncionais graves podem causar sofrimento significativo e dificultar os relacionamentos e a autorregulação.`,
-	    margin, y, { maxWidth: 180 }
-	  ); y += lineHeight * 3;
-	
-	  doc.setFont('Times', 'Bold');
-	  doc.text('Modos com gravidade identificada:', margin, y); y += lineHeight;
-	  doc.setFont('Times', 'Normal');
-	
-	  if (results.length === 0) {
-	    doc.text('Nenhum modo disfuncional grave foi identificado.', margin, y); y += lineHeight;
-	  } else {
-	    results.forEach(({ name, pct, label, desc }) => {
-	      let bloco = `• ${name}: ${pct} (${label})`;
-	      if (label === 'Grave') bloco += `\n${desc}`;
-	      const lines = doc.splitTextToSize(bloco, 180);
-	      if (y + lines.length * lineHeight > pageHeight - 25) {
-	        addFooter(doc, name, pageHeight);
-	        doc.addPage();
-	        y = 20;
-	      }
-	      doc.text(lines, margin, y, { align: 'justify' });
-	      y += lines.length * lineHeight;
-	    });
-	  }
-	
-	  y += 10;
-	  doc.text(
-	    `Esses modos indicam padrões emocionais e cognitivos que serão explorados em psicoterapia.`, 
-	    margin, y, { maxWidth: 180 }
-	  ); y += lineHeight * 2;
-	
-	  doc.text(
-	    `A partir desses resultados, o processo clínico será direcionado para fortalecer o Adulto Saudável, reduzir comportamentos disfuncionais e promover novas formas de enfrentamento.`, 
-	    margin, y, { maxWidth: 180 }
-	  ); y += lineHeight * 3;
-	
-	  addFooter(doc, name, pageHeight);
-	  doc.save(`SMI-${name.replace(/\s+/g, '_')}.pdf`);
-	
-	  function addFooter(doc, name, pageHeight) {
-	    const assinatura = `Richelmy Murta, Psicólogo Clínico\nEspecialista em Terapia Cognitivo-Comportamental`;
-	    const lines = assinatura.split('\n');
-	    doc.setFontSize(10);
-	    lines.forEach((line, idx) => {
-	      doc.text(line, 105, pageHeight - (lines.length - idx) * 6, { align: 'center' });
-	    });
-	  }
-	});
-	
-	document.getElementById('send-whatsapp').addEventListener('click', () => {
-	  const name = document.getElementById('name').value;
-	  const date = document.getElementById('date').value;
-	  const graves = Array.from(document.querySelectorAll('#mode-cards .card'))
-	    .map(card => `*${card.querySelector('h3').innerText}*: ${card.querySelector('p strong').innerText} – ${card.querySelector('p em').innerText}`)
-	    .join('%0A');
-	
-	  const msg = `📋 *SMI 1.1 – Inventário de Modos Esquemáticos*%0A
-	👤 Nome: *${name}*%0A
-	📅 Data: *${date}*%0A
-	🧠 *Modos com gravidade identificada:*%0A${graves}%0A
-	📌 Esses modos serão trabalhados em sessão terapêutica para promover alívio e transformação.`;
-	
-	  const phone = '5535984640729';
-	  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-	});
-	
-	function initApp() {
-	  renderQuestions();
-	  document.getElementById('smi-form').onsubmit = e => {
-	    e.preventDefault();
-	    const ans = collectAnswers();
-	    if (!validateAnswers(ans)) {
-	      const first = ans.findIndex(v => v === null) + 1;
-	      document.getElementById(`q${first}`)
-	        .scrollIntoView({ behavior:'smooth', block:'center' });
-	      return alert('Por favor, responda todas as perguntas.');
-	    }
-	    showResults(calculateResults(ans));
+	  // Renderiza perguntas
+	  const renderQuestions = () => {
+	    $questions.innerHTML = questions.map(
+	      ({ id, text }) => `
+	      <div class="question" id="q${id}">
+	        <p style="text-align:justify"><strong>${id}.</strong> ${text}</p>
+	        <div class="options-inline">
+	          ${[1,2,3,4,5,6].map(v=>`
+	            <label>
+	              <input type="radio" name="q${id}" value="${v}" required> ${v}
+	            </label>
+	          `).join('')}
+	        </div>
+	      </div>`
+	    ).join('');
 	  };
 	
-	  document.getElementById('send-whatsapp').style.display = 'none';
-	  document.getElementById('download-pdf').style.display = 'none';
-	}
+	  // Coleta respostas
+	  const collectAnswers = () =>
+	    questions.map(({ id }) => {
+	      const sel = document.querySelector(`input[name="q${id}"]:checked`);
+	      return sel ? +sel.value : null;
+	    });
 	
-	document.addEventListener('DOMContentLoaded', () => {
-	  initApp();
-	  setTimeout(() => {
-	    document.getElementById('splash').classList.add('hidden');
-	    document.getElementById('mainContent').classList.add('show');
-	  }, 2000);
-	  document.getElementById('darkModeToggle')
-	    .addEventListener('click', () => document.body.classList.toggle('dark'));
-	});
+	  // Verifica se todas as perguntas foram respondidas
+	  const validateAnswers = ans => ans.every(a => a !== null);
+	
+	  // Calcula os resultados
+	  const calculateResults = ans =>
+	    modes.map(({ name, items }) => {
+	      const total = items.reduce((sum, idx) => sum + ans[idx-1], 0);
+	      const pct   = Math.round((total/(items.length*6))*100);
+	      let [color, label] = getSeverity(pct);
+	
+	      if (['Criança Feliz','Adulto Saudável'].includes(name)) {
+	        color = '#3498db';
+	        label = pct >= 67 ? 'Desenvolvido'
+	              : pct >= 34 ? 'Moderado'
+	              : 'Pouco Desenvolvido';
+	      }
+	
+	      return { name, pct, label, color, desc: descriptions[name] };
+	    });
+	
+	  // Exibe resultados
+	  const showResults = results => {
+	    const graves = results.filter(
+	      r => r.label==='Grave' && !['Criança Feliz','Adulto Saudável'].includes(r.name)
+	    );
+	    const relevantes = results.filter(
+	      r => r.label==='Grave' || ['Criança Feliz','Adulto Saudável'].includes(r.name)
+	    );
+	
+	    $results.style.display = 'block';
+	    $btnWhatsApp.style.display = $btnPDF.style.display = 'inline-block';
+	
+	    $summary.innerText = graves.length
+	      ? `Modos esquemáticos disfuncionais identificados: ${graves.length}.`
+	      : "Nenhum modo disfuncional grave foi identificado.";
+	
+	    $modeCards.innerHTML = relevantes.map(({ name, pct, label, color, desc }) => `
+	      <div class="card ${['Criança Feliz','Adulto Saudável'].includes(name)?'saude':''}">
+	        <h3>${name}</h3>
+	        <div class="thermometer">
+	          <div class="thermometer-fill" style="background:${color};height:${pct}%;"></div>
+	        </div>
+	        <p><strong>${pct}%</strong> (${label})</p>
+	        <p><em>${desc}</em></p>
+	      </div>`
+	    ).join('');
+	  };
+	
+	  // Função de geração de PDF
+	  const generatePDF = () => {
+	    const { jsPDF } = window.jspdf;
+	    const doc = new jsPDF({ unit:'mm', format:'a4' });
+	    let y = 20, margin=15, lh=7, pageH=doc.internal.pageSize.height;
+	    const name = $nameInput.value, date = $dateInput.value;
+	
+	    doc.setFont('Times','Normal').setFontSize(14)
+	       .text('SMI 1.1 – Inventário de Modos Esquemáticos', margin, y);
+	    y += lh+2;
+	    doc.setFontSize(12)
+	       .text(`Nome: ${name}`, margin, y)
+	       .text(`Data: ${date}`, margin, y+=lh);
+	    y+=5;
+	    doc.setFontSize(11)
+	       .text('Este inventário avalia os modos de enfrentamento esquemáticos disfuncionais com base na Terapia dos Esquemas (Young).', margin, y, { maxWidth:180 });
+	    y+=lh*2;
+	    doc.text('Modos são estados emocionais ou padrões de comportamento ativados por situações que despertam vulnerabilidades. Modos disfuncionais graves podem causar sofrimento significativo e dificultar os relacionamentos e a autorregulação.', margin, y, { maxWidth:180 });
+	    y+=lh*3;
+	
+	    doc.setFont('Times','Bold').text('Modos com gravidade identificada:', margin, y);
+	    y+=lh; doc.setFont('Times','Normal');
+	
+	    Array.from(document.querySelectorAll('#mode-cards .card')).forEach(card => {
+	      const name = card.querySelector('h3').innerText;
+	      const pct  = card.querySelector('p strong').innerText;
+	      const label= card.querySelector('p').innerText.match(/\((.*?)\)/)[1];
+	      const desc = card.querySelector('p em').innerText;
+	      let bloco = `• ${name}: ${pct} (${label})` + (label==='Grave'? `\n${desc}`:'');
+	      const lines = doc.splitTextToSize(bloco,180);
+	      if (y + lines.length*lh > pageH-25) {
+	        addFooter(doc,pageH);
+	        doc.addPage(); y=20;
+	      }
+	      doc.text(lines, margin, y, { align:'justify' });
+	      y += lines.length*lh;
+	    });
+	
+	    y+=lh*2;
+	    doc.text('A partir desses resultados, o processo clínico será direcionado para fortalecer o Adulto Saudável, reduzir comportamentos disfuncionais e promover novas formas de enfrentamento.', margin, y, { maxWidth:180 });
+	    addFooter(doc,pageH);
+	    doc.save(`SMI-${name.replace(/\s+/g,'_')}.pdf`);
+	
+	    function addFooter(doc,pageH) {
+	      const lines = ['Richelmy Murta, Psicólogo Clínico','Especialista em TCC'];
+	      doc.setFontSize(10);
+	      lines.forEach((ln,i)=>
+	        doc.text(ln, 105, pageH - ((lines.length-i)*6), { align:'center' })
+	      );
+	    }
+	  };
+	
+	  // Função de envio via WhatsApp
+	  const sendWhatsApp = () => {
+	    const name = $nameInput.value, date = $dateInput.value;
+	    const graves = Array.from(document.querySelectorAll('#mode-cards .card'))
+	      .map(c=>`*${c.querySelector('h3').innerText}*: ${c.querySelector('p strong').innerText} – ${c.querySelector('p em').innerText}`)
+	      .join('%0A');
+	    const msg =
+	      `📋 *SMI 1.1 – Inventário de Modos Esquemáticos*%0A`+
+	      `👤 Nome: *${name}*%0A`+
+	      `📅 Data: *${date}*%0A`+
+	      `🧠 *Modos com gravidade identificada:*%0A${graves}%0A`+
+	      `📌 Esses modos serão trabalhados em sessão terapêutica para promover alívio e transformação.`;
+	    window.open(`https://wa.me/5535984640729?text=${msg}`,'_blank');
+	  };
+	
+	  // Inicialização
+	  const initApp = () => {
+	    renderQuestions();
+	    $form.onsubmit = e => {
+	      e.preventDefault();
+	      const ans = collectAnswers();
+	      if (!validateAnswers(ans)) {
+	        const first = ans.findIndex(a=>a===null)+1;
+	        document.getElementById(`q${first}`).scrollIntoView({behavior:'smooth',block:'center'});
+	        return alert('Por favor, responda todas as perguntas.');
+	      }
+	      showResults(calculateResults(ans));
+	    };
+	    $btnPDF.addEventListener('click', generatePDF);
+	    $btnWhatsApp.addEventListener('click', sendWhatsApp);
+	    $btnPDF.style.display = $btnWhatsApp.style.display = 'none';
+	  };
+	
+	  document.addEventListener('DOMContentLoaded', () => {
+	    initApp();
+	    setTimeout(() => {
+	      document.getElementById('splash').classList.add('hidden');
+	      document.getElementById('mainContent').classList.add('show');
+	    }, 2000);
+	    document.getElementById('darkModeToggle')
+	      .addEventListener('click', () => document.body.classList.toggle('dark'));
+	  });
 	
 </script>
 </body>
