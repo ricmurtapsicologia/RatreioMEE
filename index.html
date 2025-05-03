@@ -4,193 +4,104 @@
 <head>
 	<!-- Metadados essenciais -->
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>SMI 1.1 – Inventário de Modos Esquemáticos</title>
-	<meta name="description" content="SMI 1.1: Inventário de Modos Esquemáticos baseado na Terapia dos Esquemas.">
+	<meta name="description" content="SMI 1.1: Avalie os modos esquemáticos com base na Terapia dos Esquemas. Entenda seus padrões emocionais e comportamentais com este inventário clínico.">
+	<meta name="author" content="Richelmy Murta">
+	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="https://ricmurtapsicologia.github.io/inventarioModos/">
 	<link rel="icon" href="https://i.pinimg.com/736x/ea/e6/9b/eae69b98b402095e5acd1a817bb6e1ad.jpg" type="image/jpeg">
-	<!-- Open Graph / Twitter Card -->
+	<!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
 	<meta property="og:type" content="website">
 	<meta property="og:locale" content="pt_BR">
-	<meta property="og:title" content="SMI 1.1 – Inventário de Modos Esquemáticos">
-	<meta property="og:description" content="SMI 1.1: Inventário de Modos Esquemáticos baseado na Terapia dos Esquemas.">
 	<meta property="og:url" content="https://ricmurtapsicologia.github.io/inventarioModos/">
+	<meta property="og:title" content="SMI 1.1 – Inventário de Modos Esquemáticos">
+	<meta property="og:description" content="Entenda seus padrões emocionais e modos disfuncionais com base na Terapia dos Esquemas. Resultados visuais e PDF personalizado.">
 	<meta property="og:image" content="https://i.pinimg.com/736x/58/93/ad/5893ad216808cad704a9071a84e53fe0.jpg">
+	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="SMI 1.1 – Inventário de Modos Esquemáticos">
-	<meta name="twitter:description" content="SMI 1.1: Inventário de Modos Esquemáticos baseado na Terapia dos Esquemas.">
+	<meta name="twitter:description" content="Autoavaliação baseada na Terapia dos Esquemas. Gere PDF e compartilhe com seu psicólogo.">
 	<meta name="twitter:image" content="https://i.pinimg.com/736x/58/93/ad/5893ad216808cad704a9071a84e53fe0.jpg">
 	<!-- CSS3 completo -->
 	<style>
 		:root {
-		  --bg-light:     #f4f4f9;
-		  --bg-dark:      #1f1f1f;
-		  --accent:       #c8a165;
-		  --text:         #333;
-		  --text-light:   #fff;
-		  --gap:          1rem;
-		  --radius:       0.5rem;
-		  --transition:   0.4s ease-in-out;
+		  --bg-light: #f4f4f9;
+		  --bg-dark: #1f1f1f;
+		  --accent: #c8a165;
+		  --text: #333;
+		  --text-light: #fff;
+		  --gap: 1rem;
+		  --radius: 0.5rem;
+		  --transition: 0.4s ease-in-out;
+		  --whatsapp: #25d366;
+		  --pdf: #d32f2f;
 		}
+		
 		*, *::before, *::after {
 		  box-sizing: border-box;
-		  margin: 0; padding: 0;
+		  margin: 0;
+		  padding: 0;
 		}
+		
 		html, body {
-		  width: 100%; height: 100%;
+		  width: 100%;
+		  height: 100%;
 		  font-family: 'Segoe UI', sans-serif;
 		  background: var(--bg-light);
 		  color: var(--text);
 		  overflow-x: hidden;
 		  transition: background var(--transition), color var(--transition);
 		}
+		
 		body.dark {
 		  background: var(--bg-dark);
 		  color: var(--text-light);
 		}
-		a { color: inherit; text-decoration: none; }
+		
+		a {
+		  color: inherit;
+		  text-decoration: none;
+		}
+		
 		#darkModeToggle {
-		  position: fixed; top: var(--gap); right: var(--gap);
-		  background: none; border: none; cursor: pointer;
-		  font-size: 1.5rem; color: currentColor;
+		  position: fixed;
+		  top: var(--gap);
+		  right: var(--gap);
+		  background: none;
+		  border: none;
+		  cursor: pointer;
+		  font-size: 1.5rem;
+		  color: currentColor;
 		  transition: color var(--transition);
 		  z-index: 1001;
 		}
-		body.dark #darkModeToggle { color: var(--text-light); }
+		
+		body.dark #darkModeToggle {
+		  color: var(--text-light);
+		}
+		
 		#splash {
-		  position: fixed; inset: 0;
-		  background: var(--accent); color: var(--text-light);
-		  display: flex; flex-direction: column;
-		  align-items: center; justify-content: center;
-		  gap: var(--gap); text-align: center;
+		  position: fixed;
+		  inset: 0;
+		  background: var(--accent);
+		  color: var(--text-light);
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		  justify-content: center;
+		  gap: var(--gap);
+		  text-align: center;
 		  transition: opacity var(--transition), visibility var(--transition);
 		  z-index: 1000;
 		}
-		#splash.hidden { opacity: 0; visibility: hidden; }
-		.container {
-		  max-width: 960px; margin: 0 auto;
-		  padding: 0 var(--gap);
-		  opacity: 0; transform: translateY(10%);
-		  transition: opacity var(--transition), transform var(--transition);
-		}
-		.container.show {
-		  opacity: 1; transform: translateY(0);
-		}
-		.intro {
-		  background: var(--accent); color: var(--text-light);
-		  padding: 1.5rem; border-radius: var(--radius);
-		  margin: var(--gap) 0;
-		  transition: background var(--transition), color var(--transition);
-		}
-		.intro h2 { color: var(--bg-light); margin-bottom: 0.5rem; }
-		.field { margin-bottom: var(--gap); }
-		.field label {
-		  display: block; font-weight: 600; margin-bottom: 0.25rem;
-		}
-		.field input {
-		  width: 100%; padding: 0.75rem;
-		  border: 2px solid var(--accent);
-		  border-radius: var(--radius);
-		  transition: border-color var(--transition);
-		}
-		.actions { text-align: center; margin: var(--gap) 0; }
-		.actions button {
-		  background: var(--accent); color: var(--text-light);
-		  border: none; border-radius: var(--radius);
-		  padding: 0.75rem 2rem; cursor:pointer;
-		  transition: transform var(--transition);
-		min-width: 180px;
-		  text-align: center;
-		}
-		.actions button:hover { transform: scale(1.05); }
-		.cards {
-		  display: grid;
-		  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-		  gap: var(--gap); margin-bottom: var(--gap);
-		}
-		.card {
-		  background: var(--text-light); padding: var(--gap);
-		  border-radius: var(--radius); text-align:center;
-		  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-		}
-		body.dark .card { background: #222; color: var(--text-light); }
-		.thermometer {
-		  position: relative; width: 30px; height: 140px;
-		  background: #eee; border-radius:15px;
-		  margin: 0 auto 0.5rem; overflow:hidden;
-		}
-		.thermometer-fill {
-		  position: absolute; bottom:0;
-		  width:100%; height:0;
-		  background: var(--accent);
-		  transition: height 1s var(--transition);
-		}
-		footer {
-		  text-align: center; padding: var(--gap) 0;
-		  font-size: 0.85rem; color: var(--text);
-		}
-		/* Espaçamento adequado entre perguntas e opções */
-		.question {
-		  margin-bottom: 1.5rem;
-		  padding: 1rem;
-		  border: 1px solid var(--accent);
-		  border-radius: var(--radius);
-		  background-color: #fff;
-		}
-		body.dark .question {
-		  background-color: #2a2a2a;
+		
+		#splash.hidden {
+		  opacity: 0;
+		  visibility: hidden;
 		}
 		
-		/* Espaçamento entre as opções */
-		.options {
-		  display: flex;
-		  justify-content: space-between;
-		  margin-top: 0.5rem;
-		  flex-wrap: wrap;
-		}
-		.options label {
-		  margin-right: 0.5rem;
-		  font-weight: normal;
-		}
-		
-		/* Melhor estética para PDF */
-		#results h2, #summary, #mode-cards {
-		  text-align: center;
-		}
-		#results {
-		  padding: 2rem;
-		  font-size: 1.1rem;
-		  text-align: justify;
-		}
-		
-		/* Estética do botão PDF e WhatsApp */
-		.actions button#download-pdf,
-		.actions button#send-whatsapp {
-		  margin-top: 1rem;
-		  display: inline-block;
-		}
-		
-		/* Alinhamento horizontal dos botões */
-		.actions {
-		  display: flex;
-		  flex-wrap: wrap;
-		  justify-content: center;
-		  gap: 1rem;
-		}
-		.options-inline {
-		  display: flex;
-		  flex-wrap: wrap;
-		  gap: 8px;
-		  margin-top: 4px;
-		}
-		
-		.options-inline label {
-		  display: flex;
-		  align-items: center;
-		  gap: 4px;
-		  font-weight: 500;
-		}
 		.hero {
 		  width: 100%;
 		  display: flex;
@@ -198,22 +109,183 @@
 		  align-items: center;
 		  margin-top: var(--gap);
 		  margin-bottom: var(--gap);
+		  padding: 0 var(--gap);
 		}
 		
 		.hero-img {
 		  width: 100%;
-		  max-width: 720px;
+		  max-width: 640px;
 		  border-radius: var(--radius);
 		  object-fit: cover;
-		  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+		  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		  transition: transform 0.3s ease;
 		}
 		
-		.hero-img:hover {
-		  transform: scale(1.01);
+		.container {
+		  max-width: 960px;
+		  margin: 0 auto;
+		  padding: 0 var(--gap);
+		  opacity: 0;
+		  transform: translateY(10%);
+		  transition: opacity var(--transition), transform var(--transition);
 		}
 		
+		.container.show {
+		  opacity: 1;
+		  transform: translateY(0);
+		}
 		
+		.intro {
+		  background: var(--accent);
+		  color: var(--text-light);
+		  padding: 1.5rem;
+		  border-radius: var(--radius);
+		  margin: var(--gap) 0;
+		  transition: background var(--transition), color var(--transition);
+		}
+		
+		.intro h2 {
+		  color: var(--bg-light);
+		  margin-bottom: 0.5rem;
+		}
+		
+		.intro p {
+		  margin-bottom: 0.75rem;
+		  text-align: justify;
+		}
+		
+		.field {
+		  margin-bottom: 1.5rem;
+		}
+		
+		.field label {
+		  display: block;
+		  font-weight: 600;
+		  margin-bottom: 0.25rem;
+		}
+		
+		.field input {
+		  width: 100%;
+		  padding: 0.75rem;
+		  border: 2px solid var(--accent);
+		  border-radius: var(--radius);
+		  transition: border-color var(--transition);
+		}
+		
+		.question {
+		  margin-bottom: 2rem;
+		  padding: 1.5rem;
+		  border: 1px solid var(--accent);
+		  border-radius: var(--radius);
+		  background-color: #fff;
+		}
+		
+		body.dark .question {
+		  background-color: #2a2a2a;
+		}
+		
+		.question p {
+		  margin-bottom: 0.75rem;
+		  text-align: justify;
+		}
+		
+		.options-inline {
+		  display: flex;
+		  flex-wrap: wrap;
+		  gap: 0.75rem;
+		  margin-top: 0.75rem;
+		}
+		
+		.actions {
+		  display: flex;
+		  flex-wrap: wrap;
+		  justify-content: center;
+		  gap: 1rem;
+		  margin: 2rem 0;
+		}
+		
+		.actions button {
+		  border: none;
+		  border-radius: var(--radius);
+		  padding: 0.75rem 2rem;
+		  cursor: pointer;
+		  transition: transform var(--transition);
+		  min-width: 180px;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  gap: 0.5rem;
+		  font-size: 1rem;
+		  color: var(--text-light);
+		}
+		
+		.actions button:hover {
+		  transform: scale(1.05);
+		}
+		
+		#btn-gerar {
+		  background: var(--accent);
+		}
+		
+		#send-whatsapp {
+		  background: var(--whatsapp);
+		}
+		
+		#download-pdf {
+		  background: var(--pdf);
+		}
+		
+		.cards {
+		  display: grid;
+		  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+		  gap: var(--gap);
+		  margin-bottom: var(--gap);
+		}
+		
+		.card {
+		  background: var(--text-light);
+		  padding: var(--gap);
+		  border-radius: var(--radius);
+		  text-align: center;
+		  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
+		
+		body.dark .card {
+		  background: #222;
+		  color: var(--text-light);
+		}
+		
+		footer {
+		  text-align: center;
+		  padding: 2rem 1rem;
+		  font-size: 0.9rem;
+		  color: var(--text);
+		  background-color: var(--bg-light);
+		}
+		
+		body.dark footer {
+		  background-color: var(--bg-dark);
+		}
+		
+		/* Responsividade Mobile First */
+		@media (max-width: 768px) {
+		  .container {
+		    padding: 0 1rem;
+		  }
+		
+		  .actions {
+		    flex-direction: column;
+		    gap: 0.75rem;
+		  }
+		
+		  .hero-img {
+		    max-width: 100%;
+		  }
+		
+		  .intro, .question, .field {
+		    padding: 1rem;
+		  }
+		}
 	</style>
 </head>
 
@@ -223,18 +295,16 @@
 		<h1>Bem-vindo ao SMI 1.1</h1>
 		<p>Carregando avaliação...</p>
 	</div>
-	<main id="mainContent" class="container">
-		<!-- Aqui dentro vai o conteúdo da Escala -->
-		<!-- Cabeçalho -->
-		<!-- HERO aprimorado -->
+	<main id="mainContent" class="container show">
 		<section class="hero">
 			<img src="https://i.pinimg.com/736x/58/93/ad/5893ad216808cad704a9071a84e53fe0.jpg" alt="Imagem de destaque SMI 1.1" class="hero-img">
 		</section>
 		<section class="intro">
 			<h2>Saudações!</h2>
-			<p>Este formulário de autorrelato avalia *modos de enfrentamento esquemáticos* em adultos, com base na Terapia dos Esquemas de Jeffrey Young. Leia cada afirmação e selecione a resposta que melhor descreve sua experiência nos últimos 6 meses.</p>
+			<p style="margin-top: 1rem;"> Este formulário foi feito para ajudar você a refletir sobre seus sentimentos, pensamentos e formas de reagir diante dos desafios da vida. Ele se baseia na Terapia dos Esquemas, proposta por Jeffrey Young, e avalia os chamados *Modos de Enfrentamento Esquemáticos*. </p>
+			<p> Para cada afirmação, marque um número de <strong>1 a 6</strong>, de acordo com o quanto ela combina com a sua experiência nos últimos 6 meses: <br><strong>1</strong> – Nunca ou quase nunca foi assim <br><strong>2</strong> – Raramente foi assim <br><strong>3</strong> – Às vezes foi assim <br><strong>4</strong> – Frequentemente foi assim <br><strong>5</strong> – Quase sempre foi assim <br><strong>6</strong> – Sempre ou quase sempre foi exatamente assim </p>
+			<p> Não existe resposta certa ou errada. O importante é que você seja sincero, marcando o número que mais representa como você realmente se sente ou age, e não como gostaria de ser. </p>
 		</section>
-		<!-- Formulário com nome, data e questões -->
 		<form id="smi-form">
 			<div class="field">
 				<label for="name">Nome Completo</label>
@@ -246,19 +316,20 @@
 			</div>
 			<div id="questions"></div>
 			<div class="actions">
-				<button type="submit" id="btn-gerar">Gerar Resultados</button>
-				<button type="button" id="send-whatsapp" style="display: none;">Enviar ao Psicólogo</button>
-				<button type="button" id="download-pdf" style="display: none;">Baixar PDF</button>
+				<button type="submit" id="btn-gerar">
+					<i class="fas fa-chart-line"></i> Gerar Resultados </button>
+				<button type="button" id="send-whatsapp" style="display: none;">
+					<i class="fab fa-whatsapp"></i> Enviar ao Psicólogo </button>
+				<button type="button" id="download-pdf" style="display: none;">
+					<i class="fas fa-file-pdf"></i> Baixar PDF </button>
 			</div>
 		</form>
-		<!-- Resultados -->
 		<section id="results" class="hidden">
-			<h2>Resultados</h2>
 			<p id="summary"></p>
 			<div id="mode-cards" class="cards"></div>
 		</section>
 	</main>
-	<footer> Desenvolvido por Richelmy Murta Pinto – Psicólogo Clínico. Especialista em Terapia Cognitivo-Comportamental. </footer>
+	<footer style="text-align: center; margin-top: 2rem;"> Desenvolvido por Richelmy Murta Pinto – Psicólogo Clínico. Especialista em Terapia Cognitivo-Comportamental. </footer>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 <!-- Módulos JavaScript embutido -->
@@ -454,7 +525,7 @@
 	
 	
 	
-	  const severity = pct =>
+	const severity = pct =>
 	  pct < 34 ? ['green','Leve'] :
 	  pct < 67 ? ['orange','Moderado'] :
 	  ['red','Grave'];
@@ -463,12 +534,12 @@
 	  const container = document.getElementById('questions');
 	  container.innerHTML = questions.map(q => `
 	    <div class="question" id="q${q.id}">
-	      <p><strong>${q.id}.</strong> ${q.text}</p>
+	      <p style="text-align: justify;"><strong>${q.id}.</strong> ${q.text}</p>
 	      <div class="options-inline">
-	  ${[1,2,3,4,5,6].map(v =>
-	    `<label><input type="radio" name="q${q.id}" value="${v}" required> ${v}</label>`
-	  ).join('')}
-	</div>
+	        ${[1,2,3,4,5,6].map(v =>
+	          `<label><input type="radio" name="q${q.id}" value="${v}" required> ${v}</label>`
+	        ).join('')}
+	      </div>
 	    </div>
 	  `).join('');
 	}
@@ -488,52 +559,51 @@
 	  return modes.map(mode => {
 	    const sum = mode.items.reduce((a,i) => a + ans[i-1], 0);
 	    const pct = Math.round((sum / (mode.items.length * 6)) * 100);
-	  let [color, label] = severity(pct);
+	    let [color, label] = severity(pct);
 	
-	// Força a cor azul para modos saudáveis quando pct ≥ 67
-	if (pct >= 67 && (mode.name === "Criança Feliz" || mode.name === "Adulto Saudável")) {
-	  color = '#3498db';
-	}
+	    if (mode.name === "Criança Feliz" || mode.name === "Adulto Saudável") {
+	      color = '#3498db';
+	      label = pct >= 67 ? 'Desenvolvido' : pct >= 34 ? 'Moderado' : 'Pouco Desenvolvido';
+	    }
 	
-	return { name: mode.name, pct, label, color, desc: descriptions[mode.name] };
-	
+	    return { name: mode.name, pct, label, color, desc: descriptions[mode.name] };
 	  });
 	}
 	
 	function showResults(results) {
-	  const graves = results.filter(r => r.label === 'Grave');
+	  const graves = results.filter(r =>
+	    r.label === 'Grave' &&
+	    r.name !== "Criança Feliz" &&
+	    r.name !== "Adulto Saudável"
+	  );
 	
-	  if (graves.length === 0) {
-	    document.getElementById('summary').innerText = "Nenhum modo disfuncional grave foi identificado.";
-	    document.getElementById('results').style.display = 'block';
-	    return;
-	  }
+	  const relevantes = results.filter(r =>
+	    r.label === 'Grave' ||
+	    r.name === "Criança Feliz" ||
+	    r.name === "Adulto Saudável"
+	  );
 	
 	  document.getElementById('results').style.display = 'block';
 	  document.getElementById('send-whatsapp').style.display = 'inline-block';
 	  document.getElementById('download-pdf').style.display = 'inline-block';
 	
 	  document.getElementById('summary').innerText =
-	    `Modos esquemáticos disfuncionais identificados: ${graves.length}.`;
+	    graves.length === 0
+	      ? "Nenhum modo disfuncional grave foi identificado."
+	      : `Modos esquemáticos disfuncionais identificados: ${graves.length}.`;
 	
-	  document.getElementById('mode-cards').innerHTML = results.map(r => `
-	  <div class="card">
-	    <h3>${r.name}</h3>
-	    <div class="thermometer">
-	      <div class="thermometer-fill" style="background:${r.color};"></div>
+	  document.getElementById('mode-cards').innerHTML = relevantes.map(r => `
+	    <div class="card ${r.name === 'Criança Feliz' || r.name === 'Adulto Saudável' ? 'saude' : ''}">
+	      <h3>${r.name}</h3>
+	      <div class="thermometer">
+	        <div class="thermometer-fill" style="background:${r.color}; height: ${r.pct}%;"></div>
+	      </div>
+	      <p><strong>${r.pct}%</strong> (${r.label})</p>
+	      <p><em>${r.desc}</em></p>
 	    </div>
-	    <p><strong>${r.pct}%</strong> (${r.label})</p>
-	    ${r.label === 'Grave' ? `<p><em>${r.desc}</em></p>` : ''}
-	  </div>
-	`).join('');
-	
-	
-	  document.querySelectorAll('.thermometer-fill').forEach((el,i) =>
-	    setTimeout(() => el.style.height = `${graves[i].pct}%`, i * 100)
-	  );
+	  `).join('');
 	}
 	
-	// PDF
 	document.getElementById('download-pdf').addEventListener('click', () => {
 	  const { jsPDF } = window.jspdf;
 	  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
@@ -582,20 +652,17 @@
 	    doc.text('Nenhum modo disfuncional grave foi identificado.', margin, y); y += lineHeight;
 	  } else {
 	    results.forEach(({ name, pct, label, desc }) => {
-	  let bloco = `• ${name}: ${pct} (${label})`;
-	  if (label === 'Grave') {
-	    bloco += `\n${desc}`;
-	  }
-	  const lines = doc.splitTextToSize(bloco, 180);
-	  if (y + lines.length * lineHeight > pageHeight - 25) {
-	    addFooter(doc, name, pageHeight);
-	    doc.addPage();
-	    y = 20;
-	  }
-	  doc.text(lines, margin, y, { align: 'justify' });
-	  y += lines.length * lineHeight;
-	});
-	
+	      let bloco = `• ${name}: ${pct} (${label})`;
+	      if (label === 'Grave') bloco += `\n${desc}`;
+	      const lines = doc.splitTextToSize(bloco, 180);
+	      if (y + lines.length * lineHeight > pageHeight - 25) {
+	        addFooter(doc, name, pageHeight);
+	        doc.addPage();
+	        y = 20;
+	      }
+	      doc.text(lines, margin, y, { align: 'justify' });
+	      y += lines.length * lineHeight;
+	    });
 	  }
 	
 	  y += 10;
@@ -609,7 +676,7 @@
 	    margin, y, { maxWidth: 180 }
 	  ); y += lineHeight * 3;
 	
-	  addFooter(doc, name, pageHeight); // última lauda
+	  addFooter(doc, name, pageHeight);
 	  doc.save(`SMI-${name.replace(/\s+/g, '_')}.pdf`);
 	
 	  function addFooter(doc, name, pageHeight) {
@@ -622,8 +689,6 @@
 	  }
 	});
 	
-	
-	// WhatsApp
 	document.getElementById('send-whatsapp').addEventListener('click', () => {
 	  const name = document.getElementById('name').value;
 	  const date = document.getElementById('date').value;
@@ -641,7 +706,6 @@
 	  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
 	});
 	
-	
 	function initApp() {
 	  renderQuestions();
 	  document.getElementById('smi-form').onsubmit = e => {
@@ -656,7 +720,6 @@
 	    showResults(calculateResults(ans));
 	  };
 	
-	  // Esconde botões até resultados aparecerem
 	  document.getElementById('send-whatsapp').style.display = 'none';
 	  document.getElementById('download-pdf').style.display = 'none';
 	}
