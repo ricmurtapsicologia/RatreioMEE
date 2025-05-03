@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+	<!-- Metadados essenciais -->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SMI 1.1 – Inventário de Modos Esquemáticos</title>
+	<meta name="description" content="SMI 1.1: Inventário de Modos Esquemáticos baseado na Terapia dos Esquemas.">
+	<link rel="canonical" href="https://ricmurtapsicologia.github.io/inventarioModos/">
+	<link rel="icon" href="https://i.pinimg.com/736x/ea/e6/9b/eae69b98b402095e5acd1a817bb6e1ad.jpg" type="image/jpeg">
+	<!-- Open Graph / Twitter Card -->
+	<meta property="og:type" content="website">
+	<meta property="og:locale" content="pt_BR">
+	<meta property="og:title" content="SMI 1.1 – Inventário de Modos Esquemáticos">
+	<meta property="og:description" content="SMI 1.1: Inventário de Modos Esquemáticos baseado na Terapia dos Esquemas.">
+	<meta property="og:url" content="https://ricmurtapsicologia.github.io/inventarioModos/">
+	<meta property="og:image" content="https://i.pinimg.com/736x/57/56/e0/5756e082e6578f470c72d23a323ed61e.jpg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="SMI 1.1 – Inventário de Modos Esquemáticos">
+	<meta name="twitter:description" content="SMI 1.1: Inventário de Modos Esquemáticos baseado na Terapia dos Esquemas.">
+	<meta name="twitter:image" content="https://i.pinimg.com/736x/57/56/e0/5756e082e6578f470c72d23a323ed61e.jpg">
+	<!-- CSS3 completo -->
+	<style>
+		:root {
+		  --bg-light:     #f4f4f9;
+		  --bg-dark:      #1f1f1f;
+		  --accent:       #c8a165;
+		  --text:         #333;
+		  --text-light:   #fff;
+		  --gap:          1rem;
+		  --radius:       0.5rem;
+		  --transition:   0.4s ease-in-out;
+		}
+		*, *::before, *::after {
+		  box-sizing: border-box;
+		  margin: 0; padding: 0;
+		}
+		html, body {
+		  width: 100%; height: 100%;
+		  font-family: 'Segoe UI', sans-serif;
+		  background: var(--bg-light);
+		  color: var(--text);
+		  overflow-x: hidden;
+		  transition: background var(--transition), color var(--transition);
+		}
+		body.dark {
+		  background: var(--bg-dark);
+		  color: var(--text-light);
+		}
+		a { color: inherit; text-decoration: none; }
+		#darkModeToggle {
+		  position: fixed; top: var(--gap); right: var(--gap);
+		  background: none; border: none; cursor: pointer;
+		  font-size: 1.5rem; color: currentColor;
+		  transition: color var(--transition);
+		  z-index: 1001;
+		}
+		body.dark #darkModeToggle { color: var(--text-light); }
+		#splash {
+		  position: fixed; inset: 0;
+		  background: var(--accent); color: var(--text-light);
+		  display: flex; flex-direction: column;
+		  align-items: center; justify-content: center;
+		  gap: var(--gap); text-align: center;
+		  transition: opacity var(--transition), visibility var(--transition);
+		  z-index: 1000;
+		}
+		#splash.hidden { opacity: 0; visibility: hidden; }
+		.container {
+		  max-width: 960px; margin: 0 auto;
+		  padding: 0 var(--gap);
+		  opacity: 0; transform: translateY(10%);
+		  transition: opacity var(--transition), transform var(--transition);
+		}
+		.container.show {
+		  opacity: 1; transform: translateY(0);
+		}
+		.intro {
+		  background: var(--accent); color: var(--text-light);
+		  padding: 1.5rem; border-radius: var(--radius);
+		  margin: var(--gap) 0;
+		  transition: background var(--transition), color var(--transition);
+		}
+		.intro h2 { color: var(--bg-light); margin-bottom: 0.5rem; }
+		.field { margin-bottom: var(--gap); }
+		.field label {
+		  display: block; font-weight: 600; margin-bottom: 0.25rem;
+		}
+		.field input {
+		  width: 100%; padding: 0.75rem;
+		  border: 2px solid var(--accent);
+		  border-radius: var(--radius);
+		  transition: border-color var(--transition);
+		}
+		.actions { text-align: center; margin: var(--gap) 0; }
+		.actions button {
+		  background: var(--accent); color: var(--text-light);
+		  border: none; border-radius: var(--radius);
+		  padding: 0.75rem 2rem; cursor:pointer;
+		  transition: transform var(--transition);
+		min-width: 180px;
+		  text-align: center;
+		}
+		.actions button:hover { transform: scale(1.05); }
+		.cards {
+		  display: grid;
+		  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+		  gap: var(--gap); margin-bottom: var(--gap);
+		}
+		.card {
+		  background: var(--text-light); padding: var(--gap);
+		  border-radius: var(--radius); text-align:center;
+		  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+		body.dark .card { background: #222; color: var(--text-light); }
+		.thermometer {
+		  position: relative; width: 30px; height: 140px;
+		  background: #eee; border-radius:15px;
+		  margin: 0 auto 0.5rem; overflow:hidden;
+		}
+		.thermometer-fill {
+		  position: absolute; bottom:0;
+		  width:100%; height:0;
+		  background: var(--accent);
+		  transition: height 1s var(--transition);
+		}
+		footer {
+		  text-align: center; padding: var(--gap) 0;
+		  font-size: 0.85rem; color: var(--text);
+		}
+		/* Espaçamento adequado entre perguntas e opções */
+		.question {
+		  margin-bottom: 1.5rem;
+		  padding: 1rem;
+		  border: 1px solid var(--accent);
+		  border-radius: var(--radius);
+		  background-color: #fff;
+		}
+		body.dark .question {
+		  background-color: #2a2a2a;
+		}
+		
+		/* Espaçamento entre as opções */
+		.options {
+		  display: flex;
+		  justify-content: space-between;
+		  margin-top: 0.5rem;
+		  flex-wrap: wrap;
+		}
+		.options label {
+		  margin-right: 0.5rem;
+		  font-weight: normal;
+		}
+		
+		/* Melhor estética para PDF */
+		#results h2, #summary, #mode-cards {
+		  text-align: center;
+		}
+		#results {
+		  padding: 2rem;
+		  font-size: 1.1rem;
+		  text-align: justify;
+		}
+		
+		/* Estética do botão PDF e WhatsApp */
+		.actions button#download-pdf,
+		.actions button#send-whatsapp {
+		  margin-top: 1rem;
+		  display: inline-block;
+		}
+		
+		/* Alinhamento horizontal dos botões */
+		.actions {
+		  display: flex;
+		  flex-wrap: wrap;
+		  justify-content: center;
+		  gap: 1rem;
+		}
+		.options-inline {
+		  display: flex;
+		  flex-wrap: wrap;
+		  gap: 8px;
+		  margin-top: 4px;
+		}
+		
+		.options-inline label {
+		  display: flex;
+		  align-items: center;
+		  gap: 4px;
+		  font-weight: 500;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<button id="darkModeToggle">🌙</button>
+	<div id="splash">
+		<h1>Bem-vindo ao SMI 1.1</h1>
+		<p>Carregando avaliação...</p>
+	</div>
+	<main id="mainContent" class="container">
+		<!-- Aqui dentro vai o conteúdo da Escala -->
+		<!-- Cabeçalho -->
+		<section class="intro">
+			<h2>Saudações!</h2>
+			<p>Este formulário de autorrelato avalia *modos de enfrentamento esquemáticos* em adultos, com base na Terapia dos Esquemas de Jeffrey Young. Leia cada afirmação e selecione a resposta que melhor descreve sua experiência nos últimos 6 meses.</p>
+		</section>
+		<!-- Formulário com nome, data e questões -->
+		<form id="smi-form">
+			<div class="field">
+				<label for="name">Nome Completo</label>
+				<input type="text" id="name" required>
+			</div>
+			<div class="field">
+				<label for="date">Data</label>
+				<input type="date" id="date" required>
+			</div>
+			<div id="questions"></div>
+			<div class="actions">
+				<button type="submit" id="btn-gerar">Gerar Resultados</button>
+				<button type="button" id="send-whatsapp" style="display: none;">Enviar ao Psicólogo</button>
+				<button type="button" id="download-pdf" style="display: none;">Baixar PDF</button>
+			</div>
+		</form>
+		<!-- Resultados -->
+		<section id="results" class="hidden">
+			<h2>Resultados</h2>
+			<p id="summary"></p>
+			<div id="mode-cards" class="cards"></div>
+		</section>
+	</main>
+	<footer> Desenvolvido por Richelmy Murta Pinto – Psicólogo Clínico. Especialista em Terapia Cognitivo-Comportamental. </footer>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+<!-- Módulos JavaScript embutido -->
+<script type="module">
+	const questions = [
+	  { id: 1,   text: "Eu exijo respeito ao não permitir que os outros me intimidem ou mandem em mim." },
+	  { id: 2,   text: "Eu me sinto amado e aceito." },
+	  { id: 3,   text: "Eu não me permito sentir prazer, pois não mereço." },
+	  { id: 4,   text: "Eu me sinto fundamentalmente inadequado, falho ou defeituoso." },
+	  { id: 5,   text: "Eu tenho impulsos de me punir, me machucando (p. ex., me cortando)." },
+	  { id: 6,   text: "Eu me sinto perdido." },
+	  { id: 7,   text: "Eu sou duro comigo mesmo." },
+	  { id: 8,   text: "Eu me esforço muito para agradar outras pessoas; assim, evito conflitos, confrontos ou rejeição." },
+	  { id: 9,   text: "Eu não consigo me perdoar." },
+	  { id: 10,  text: "Eu faço coisas para que eu me torne o centro das atenções." },
+	  { id: 11,  text: "Eu fico irritado quando as pessoas não fazem o que eu peço." },
+	  { id: 12,  text: "Eu tenho dificuldade de controlar meus impulsos." },
+	  { id: 13,  text: "Se eu não consigo atingir um objetivo, me frustro facilmente e desisto." },
+	  { id: 14,  text: "Eu tenho acessos de raiva." },
+	  { id: 15,  text: "Eu ajo de forma impulsiva ou expresso emoções que magoam os outros ou me causam problemas." },
+	  { id: 16,  text: "Quando algo ruim acontece, a culpa é minha." },
+	  { id: 17,  text: "Eu me sinto contente e tranquilo." },
+	  { id: 18,  text: "Eu mudo o meu jeito de ser dependendo de quem esteja comigo, assim essas pessoas gostarão de mim ou me aprovarão." },
+	  { id: 19,  text: "Eu me sinto conectado às outras pessoas." },
+	  { id: 20,  text: "Quando ocorrem problemas, me esforço bastante para resolvê-los eu mesmo." },
+	  { id: 21,  text: "Eu não me disciplino para concluir tarefas chatas ou rotineiras." },
+	  { id: 22,  text: "Se eu não brigar, as pessoas se aproveitarão de mim ou me ignorarão." },
+	  { id: 23,  text: "Eu preciso cuidar das pessoas à minha volta." },
+	  { id: 24,  text: "Se você permitir que as outras pessoas façam piadas ou mexam com você, você é um trouxa." },
+	  { id: 25,  text: "Eu agrido as pessoas fisicamente quando estou com raiva delas." },
+	  { id: 26,  text: "Quando eu começo a ficar bravo, muitas vezes não consigo controlar a raiva e perco a cabeça." },
+	  { id: 27,  text: "Para mim, é importante ser o número 1 (p. ex., o mais popular, o mais bem-sucedido, o mais rico, o mais poderoso)." },
+	  { id: 28,  text: "Eu me sinto indiferente em relação à maioria das coisas." },
+	  { id: 29,  text: "Eu consigo resolver problemas racionalmente, sem deixar que as minhas emoções tomem conta de mim." },
+	  { id: 30,  text: "É ridículo planejar como você lidará com as situações." },
+	  { id: 31,  text: "Eu não me contentarei em ficar em segundo lugar." },
+	  { id: 32,  text: "Atacar é a melhor defesa." },
+	  { id: 33,  text: "Eu me sinto frio e emocionalmente afastado das pessoas." },
+	  { id: 34,  text: "Eu me sinto desconectado (sem contato comigo mesmo, minhas emoções e com as outras pessoas)." },
+	  { id: 35,  text: "Eu sigo as minhas emoções cegamente." },
+	  { id: 36,  text: "Eu me sinto desesperado." },
+	  { id: 37,  text: "Eu permito que outras pessoas me critiquem ou me coloquem para baixo." },
+	  { id: 38,  text: "Nas relações, eu deixo a outra pessoa tomar as decisões." },
+	  { id: 39,  text: "Eu me sinto distante das outras pessoas." },
+	  { id: 40,  text: "Eu não penso antes de falar, isso me traz problemas ou machuca as outras pessoas." },
+	  { id: 41,  text: "Eu trabalho ou pratico exercícios físicos intensamente para que não precise pensar sobre as coisas que me incomodam." },
+	  { id: 42,  text: "Eu estou bravo porque as pessoas estão tentando tirar a minha liberdade ou independência." },
+	  { id: 43,  text: "Eu não sinto nada." },
+	  { id: 44,  text: "Eu faço o que eu quero fazer, independentemente dos sentimentos e necessidades dos outros." },
+	  { id: 45,  text: "Eu não me permito relaxar ou me divertir até que tenha terminado tudo o que eu deveria fazer." },
+	  { id: 46,  text: "Eu jogo coisas (longe, no chão, na parede, etc.) quando estou com raiva." },
+	  { id: 47,  text: "Eu sinto raiva das outras pessoas." },
+	  { id: 48,  text: "Eu me sinto aceito pelas outras pessoas." },
+	  { id: 49,  text: "Eu tenho tanta raiva acumulada dentro de mim que preciso extravasá-la." },
+	  { id: 50,  text: "Eu me sinto só." },
+	  { id: 51,  text: "Eu tento dar o meu melhor em tudo." },
+	  { id: 52,  text: "Eu gosto de fazer coisas animadas ou relaxantes para evitar meus sentimentos (p. ex., trabalhar, apostar, comer, fazer compras, atividade sexual, assistir TV)." },
+	  { id: 53,  text: "Igualdade não existe, então é melhor ser superior aos outros." },
+	  { id: 54,  text: "Quando fico bravo, eu frequentemente perco o controle e ameaço as pessoas." },
+	  { id: 55,  text: "Em vez de expressar as minhas próprias necessidades, eu deixo que as pessoas façam as coisas do jeito que preferem." },
+	  { id: 56,  text: "Se uma pessoa não concorda comigo, ela está contra mim." },
+	  { id: 57,  text: "Eu me esforço para estar sempre ocupado; assim, meus pensamentos e sentimentos incômodos me perturbam menos." },
+	  { id: 58,  text: "Quando eu sinto raiva dos outros, me considero uma pessoa má." },
+	  { id: 59,  text: "Eu não quero me envolver com as pessoas." },
+	  { id: 60,  text: "Eu sinto tanta raiva que já cheguei a machucar ou matar alguém." },
+	  { id: 61,  text: "Eu sinto que tenho bastante estabilidade e segurança na minha vida." },
+	  { id: 62,  text: "Eu sei quando expressar as minhas emoções e quando não as expressar." },
+	  { id: 63,  text: "Eu sinto raiva de uma pessoa por ela ter me deixado só ou me abandonado." },
+	  { id: 64,  text: "Eu não me sinto conectado às outras pessoas." },
+	  { id: 65,  text: "Eu não consigo me disciplinar para fazer coisas que acho desagradáveis, mesmo que eu saiba que são para o meu próprio bem." },
+	  { id: 66,  text: "Eu desrespeito as regras e depois me arrependo." },
+	  { id: 67,  text: "Eu me sinto humilhado." },
+	  { id: 68,  text: "Eu confio na maioria das pessoas." },
+	  { id: 69,  text: "Primeiro eu ajo, depois eu penso." },
+	  { id: 70,  text: "Eu me entedio facilmente e perco o interesse nas coisas." },
+	  { id: 71,  text: "Mesmo com pessoas à minha volta, eu me sinto sozinho." },
+	  { id: 72,  text: "Eu não me permito fazer coisas agradáveis que as outras pessoas fazem, pois sou uma pessoa má." },
+	  { id: 73,  text: "Eu expresso ou comunico o que necessito sem passar dos limites (p. ex., sem exigir demais dos outros)." },
+	  { id: 74,  text: "Eu me sinto especial e melhor do que a maioria das outras pessoas." },
+	  { id: 75,  text: "Eu não me importo com nada; nada faz diferença para mim." },
+	  { id: 76,  text: "Eu fico bravo quando alguém me diz como devo me sentir ou me comportar." },
+	  { id: 77,  text: "Se você não dominar os outros, eles dominarão você." },
+	  { id: 78,  text: "Eu digo o que sinto, ou ajo impulsivamente, sem pensar nas consequências." },
+	  { id: 79,  text: "Eu sinto vontade de gritar/brigar com as pessoas pelo jeito como elas me tratam." },
+	  { id: 80,  text: "Eu sou capaz de cuidar de mim mesmo." },
+	  { id: 81,  text: "Eu sou bastante crítico em relação aos outros." },
+	  { id: 82,  text: "Eu estou sob pressão constante para atingir objetivos e dar conta das coisas." },
+	  { id: 83,  text: "Eu estou tentando não cometer erros; caso contrário, irei me criticar fortemente." },
+	  { id: 84,  text: "Eu mereço ser punido." },
+	  { id: 85,  text: "Eu posso aprender, crescer e mudar." },
+	  { id: 86,  text: "Eu quero me distrair dos pensamentos e sentimentos que possam me deixar chateado." },
+	  { id: 87,  text: "Eu estou com raiva de mim mesmo." },
+	  { id: 88,  text: "Eu me sinto indiferente e apático." },
+	  { id: 89,  text: "Eu preciso ser o melhor em tudo que faço." },
+	  { id: 90,  text: "Eu sacrifico prazer, saúde e felicidade para satisfazer meus próprios padrões de exigência." },
+	  { id: 91,  text: "Eu exijo bastante das outras pessoas." },
+	  { id: 92,  text: "Se eu fico com raiva, às vezes fico tão fora do controle que agrido fisicamente ou prejudico outras pessoas." },
+	  { id: 93,  text: "Eu sou inabalável." },
+	  { id: 94,  text: "Eu sou uma pessoa má." },
+	  { id: 95,  text: "Eu me sinto seguro." },
+	  { id: 96,  text: "Eu me sinto ouvido, compreendido, acolhido e aceito." },
+	  { id: 97,  text: "Para mim, é impossível controlar meus impulsos." },
+	  { id: 98,  text: "Eu destruo coisas quando estou com raiva." },
+	  { id: 99,  text: "Se você dominar as outras pessoas, nada poderá acontecer com você." },
+	  { id:100,  text: "Eu ajo de forma passiva mesmo quando não gosto do jeito que as coisas estão." },
+	  { id:101,  text: "A minha raiva sai do controle." },
+	  { id:102,  text: "Eu zombo ou intimido outras pessoas." },
+	  { id:103,  text: "Eu sinto vontade de agredir verbal ou fisicamente alguém pelo que essa pessoa fez para mim." },
+	  { id:104,  text: "Eu sei que há uma forma “certa” e uma “errada” de fazer as coisas. Eu me esforço para fazer as coisas do jeito certo; caso contrário, eu começo a me criticar." },
+	  { id:105,  text: "Eu frequentemente me sinto sozinho no mundo." },
+	  { id:106,  text: "Eu me sinto fraco e sem saída." },
+	  { id:107,  text: "Eu sou preguiçoso." },
+	  { id:108,  text: "Eu posso suportar qualquer coisa que venha das pessoas que são importantes para mim." },
+	  { id:109,  text: "Eu fui traído ou tratado de forma injusta." },
+	  { id:110,  text: "Se eu sinto o impulso de fazer alguma coisa, vou e faço." },
+	  { id:111,  text: "Eu me sinto deixado de lado ou excluído." },
+	  { id:112,  text: "Eu diminuo ou menosprezo os outros." },
+	  { id:113,  text: "Eu me sinto otimista." },
+	  { id:114,  text: "Eu sinto que não deveria ter que seguir as mesmas regras que as outras pessoas seguem." },
+	  { id:115,  text: "Neste momento, minha vida se resume a iniciar e concluir tarefas do jeito certo." },
+	  { id:116,  text: "Eu me cobro para ser mais responsável do que a maioria das outras pessoas." },
+	  { id:117,  text: "Eu consigo me defender de forma adequada quando me sinto criticado injustamente, maltratado ou quando sentiram vantagem de mim." },
+	  { id:118,  text: "Eu não mereço pena, ou que os outros sejam compreensivos comigo quando algo de ruim me acontece." },
+	  { id:119,  text: "Eu sinto que ninguém me ama." },
+	  { id:120,  text: "Eu sinto que sou uma pessoa fundamentalmente boa." },
+	  { id:121,  text: "Quando necessário, eu concluo tarefas chatas e rotineiras para que eu conquiste aquilo que eu valorizo." },
+	  { id:122,  text: "Eu me sinto espontâneo e divertido." },
+	  { id:123,  text: "Às vezes eu fico com tanta raiva que sinto que seria capaz de matar alguém." },
+	  { id:124,  text: "Eu tenho uma boa noção de quem sou e do que preciso para me deixar feliz." }
+	];
+	
+	// Parte 2: modos esquemáticos
+	const modes = [
+	  { name: "Criança Vulnerável",            items: [4,6,36,50,67,71,105,106,111,119] },
+	  { name: "Criança Zangada",               items: [22,42,47,49,56,63,76,79,103,109] },
+	  { name: "Criança Raivosa",               items: [14,25,26,46,54,60,92,98,101,123] },
+	  { name: "Criança Impulsiva",             items: [12,15,35,40,66,69,78,97,110] },
+	  { name: "Criança Indisciplinada",        items: [13,21,30,65,70,107] },
+	  { name: "Criança Feliz",                 items: [2,17,19,48,61,68,95,96,113,122] },
+	  { name: "Capitulador Complacente",       items: [8,18,37,38,55,100,108] },
+	  { name: "Protetor Desligado",            items: [28,33,34,39,43,59,64,75,88] },
+	  { name: "Auto-confortador Desligado",    items: [41,52,57,86] },
+	  { name: "Autoengrandece",                items: [10,11,27,31,44,74,81,89,91,114] },
+	  { name: "Intimidação e Ataque",          items: [1,24,32,53,77,93,99,102,112] },
+	  { name: "Pais Punitivos",                items: [3,5,9,16,58,72,84,87,94,118] },
+	  { name: "Pais Exigentes/Críticos",       items: [7,23,45,51,82,83,90,104,115,116] },
+	  { name: "Adulto Saudável",               items: [20,29,62,73,80,85,117,120,121,124] }
+	];
+	
+	const descriptions = {
+	  "Criança Vulnerável": 
+	    "É a parte de você que se sente sozinho, inseguro, rejeitado ou carente. Surgiu na infância, quando necessidades emocionais básicas não foram atendidas. Pode gerar tristeza profunda, medo ou sensação de desamparo diante da vida.",
+	
+	  "Criança Zangada": 
+	    "Representa a criança interior que se sente injustiçada, frustrada ou desprezada. Expressa essa dor com raiva, querendo que suas necessidades sejam atendidas agora. É comum que surja contra figuras que lembram autoridade ou abandono.",
+	
+	  "Criança Raivosa": 
+	    "Manifesta explosões intensas de raiva ou agressividade. É uma forma descontrolada da Criança Zangada, com menos filtro e mais impulsividade. Aparece quando a dor é insuportável e não encontra outra saída.",
+	
+	  "Criança Impulsiva": 
+	    "Busca prazer ou alívio imediato, sem considerar consequências. Age por impulso para preencher vazios emocionais ou fugir da dor. Costuma surgir quando limites e frustrações não foram ensinados na infância.",
+	
+	  "Criança Indisciplinada": 
+	    "Recusa regras, rotinas e limites. Quer fazer apenas o que tem vontade. Normalmente é resultado de carência de orientação firme na infância ou de frustrações não validadas.",
+	
+	  "Criança Feliz": 
+	    "É a parte saudável e espontânea que sente alegria, amor, segurança e conexão. Representa a realização de necessidades emocionais básicas. Surge quando há vínculos seguros e validação emocional.",
+	
+	  "Capitulador Complacente": 
+	    "É o modo que se anula para agradar ou evitar conflitos. Adapta-se demais aos outros, mesmo que isso traga sofrimento. Normalmente nasce do medo de rejeição ou punição se expressar suas próprias vontades.",
+	
+	  "Protetor Desligado": 
+	    "Afasta-se das emoções, dos outros ou de si mesmo como forma de proteção. Pode parecer frio, indiferente ou isolado. Surge como defesa contra dores antigas e intensas.",
+	
+	  "Auto-confortador Desligado": 
+	    "Busca distrações externas (comida, compras, redes sociais, etc.) para não sentir emoções difíceis. É um modo de fuga emocional. Alivia no curto prazo, mas mantém os problemas no fundo.",
+	
+	  "Autoengrandece": 
+	    "Cria uma imagem inflada de si mesmo, como se fosse melhor que os outros. É um modo defensivo para encobrir sentimentos de inferioridade ou medo de rejeição. Busca atenção, admiração ou controle.",
+	
+	  "Intimidação e Ataque": 
+	    "Usa agressividade, ameaça ou dominação como forma de se proteger ou impor respeito. Normalmente surge em quem sofreu abuso, humilhação ou invalidação, e aprendeu a atacar para não ser atacado.",
+	
+	  "Pais Punitivos": 
+	    "Representa uma voz interna rígida e crítica que pune, julga e humilha. Reflete modelos parentais severos ou experiências de culpa e vergonha. Reforça autoacusações, bloqueia o autocuidado e o perdão.",
+	
+	  "Pais Exigentes/Críticos": 
+	    "É o modo que cobra perfeição, sucesso e alto desempenho o tempo todo. Nunca está satisfeito. Costuma nascer de pais exigentes, valorização exagerada de resultados ou medo de falhar e ser rejeitado.",
+	
+	  "Adulto Saudável": 
+	    "É a parte equilibrada que acolhe emoções, cuida das necessidades, impõe limites e guia decisões com maturidade. É a meta da terapia: fortalecer esse modo para cuidar das crianças internas e lidar com a vida com sabedoria."
+	};
+	
+	
+	
+	  const severity = pct =>
+	  pct < 34 ? ['green','Leve'] :
+	  pct < 67 ? ['orange','Moderado'] :
+	  ['red','Grave'];
+	
+	function renderQuestions() {
+	  const container = document.getElementById('questions');
+	  container.innerHTML = questions.map(q => `
+	    <div class="question" id="q${q.id}">
+	      <p><strong>${q.id}.</strong> ${q.text}</p>
+	      <div class="options-inline">
+	  ${[1,2,3,4,5,6].map(v =>
+	    `<label><input type="radio" name="q${q.id}" value="${v}" required> ${v}</label>`
+	  ).join('')}
+	</div>
+	    </div>
+	  `).join('');
+	}
+	
+	function collectAnswers() {
+	  return questions.map(q => {
+	    const el = document.querySelector(`input[name="q${q.id}"]:checked`);
+	    return el ? Number(el.value) : null;
+	  });
+	}
+	
+	function validateAnswers(ans) {
+	  return ans.every(v => v !== null);
+	}
+	
+	function calculateResults(ans) {
+	  return modes.map(mode => {
+	    const sum = mode.items.reduce((a,i) => a + ans[i-1], 0);
+	    const pct = Math.round((sum / (mode.items.length * 6)) * 100);
+	  let [color, label] = severity(pct);
+	
+	// Força a cor azul para modos saudáveis quando pct ≥ 67
+	if (pct >= 67 && (mode.name === "Criança Feliz" || mode.name === "Adulto Saudável")) {
+	  color = '#3498db';
+	}
+	
+	return { name: mode.name, pct, label, color, desc: descriptions[mode.name] };
+	
+	  });
+	}
+	
+	function showResults(results) {
+	  const graves = results.filter(r => r.label === 'Grave');
+	
+	  if (graves.length === 0) {
+	    document.getElementById('summary').innerText = "Nenhum modo disfuncional grave foi identificado.";
+	    document.getElementById('results').style.display = 'block';
+	    return;
+	  }
+	
+	  document.getElementById('results').style.display = 'block';
+	  document.getElementById('send-whatsapp').style.display = 'inline-block';
+	  document.getElementById('download-pdf').style.display = 'inline-block';
+	
+	  document.getElementById('summary').innerText =
+	    `Modos esquemáticos disfuncionais identificados: ${graves.length}.`;
+	
+	  document.getElementById('mode-cards').innerHTML = results.map(r => `
+	  <div class="card">
+	    <h3>${r.name}</h3>
+	    <div class="thermometer">
+	      <div class="thermometer-fill" style="background:${r.color};"></div>
+	    </div>
+	    <p><strong>${r.pct}%</strong> (${r.label})</p>
+	    ${r.label === 'Grave' ? `<p><em>${r.desc}</em></p>` : ''}
+	  </div>
+	`).join('');
+	
+	
+	  document.querySelectorAll('.thermometer-fill').forEach((el,i) =>
+	    setTimeout(() => el.style.height = `${graves[i].pct}%`, i * 100)
+	  );
+	}
+	
+	// PDF
+	document.getElementById('download-pdf').addEventListener('click', () => {
+	  const { jsPDF } = window.jspdf;
+	  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+	
+	  const name = document.getElementById('name').value;
+	  const date = document.getElementById('date').value;
+	
+	  const results = Array.from(document.querySelectorAll('#mode-cards .card'))
+	    .map(card => ({
+	      name: card.querySelector('h3').innerText,
+	      pct: card.querySelector('p strong').innerText,
+	      label: card.querySelector('p').innerText.split(')')[1].trim(),
+	      desc: card.querySelector('p em').innerText
+	    }));
+	
+	  let y = 20;
+	  const margin = 15;
+	  const lineHeight = 7;
+	  const pageHeight = doc.internal.pageSize.height;
+	
+	  doc.setFont('Times', 'Normal');
+	  doc.setFontSize(14);
+	  doc.text(`SMI 1.1 – Inventário de Modos Esquemáticos`, margin, y); y += lineHeight + 2;
+	
+	  doc.setFontSize(12);
+	  doc.text(`Nome: ${name}`, margin, y); y += lineHeight;
+	  doc.text(`Data: ${date}`, margin, y); y += lineHeight;
+	
+	  y += 5;
+	  doc.setFontSize(11);
+	  doc.text(
+	    `Este inventário avalia os modos de enfrentamento esquemáticos disfuncionais com base na Terapia dos Esquemas (Young).`, 
+	    margin, y, { maxWidth: 180 }
+	  ); y += lineHeight * 2;
+	
+	  doc.text(
+	    `Modos são estados emocionais ou padrões de comportamento ativados por situações que despertam vulnerabilidades. Modos disfuncionais graves podem causar sofrimento significativo e dificultar os relacionamentos e a autorregulação.`,
+	    margin, y, { maxWidth: 180 }
+	  ); y += lineHeight * 3;
+	
+	  doc.setFont('Times', 'Bold');
+	  doc.text('Modos com gravidade identificada:', margin, y); y += lineHeight;
+	  doc.setFont('Times', 'Normal');
+	
+	  if (results.length === 0) {
+	    doc.text('Nenhum modo disfuncional grave foi identificado.', margin, y); y += lineHeight;
+	  } else {
+	    results.forEach(({ name, pct, label, desc }) => {
+	  let bloco = `• ${name}: ${pct} (${label})`;
+	  if (label === 'Grave') {
+	    bloco += `\n${desc}`;
+	  }
+	  const lines = doc.splitTextToSize(bloco, 180);
+	  if (y + lines.length * lineHeight > pageHeight - 25) {
+	    addFooter(doc, name, pageHeight);
+	    doc.addPage();
+	    y = 20;
+	  }
+	  doc.text(lines, margin, y, { align: 'justify' });
+	  y += lines.length * lineHeight;
+	});
+	
+	  }
+	
+	  y += 10;
+	  doc.text(
+	    `Esses modos indicam padrões emocionais e cognitivos que serão explorados em psicoterapia.`, 
+	    margin, y, { maxWidth: 180 }
+	  ); y += lineHeight * 2;
+	
+	  doc.text(
+	    `A partir desses resultados, o processo clínico será direcionado para fortalecer o Adulto Saudável, reduzir comportamentos disfuncionais e promover novas formas de enfrentamento.`, 
+	    margin, y, { maxWidth: 180 }
+	  ); y += lineHeight * 3;
+	
+	  addFooter(doc, name, pageHeight); // última lauda
+	  doc.save(`SMI-${name.replace(/\s+/g, '_')}.pdf`);
+	
+	  function addFooter(doc, name, pageHeight) {
+	    const assinatura = `Richelmy Murta, Psicólogo Clínico\nEspecialista em Terapia Cognitivo-Comportamental`;
+	    const lines = assinatura.split('\n');
+	    doc.setFontSize(10);
+	    lines.forEach((line, idx) => {
+	      doc.text(line, 105, pageHeight - (lines.length - idx) * 6, { align: 'center' });
+	    });
+	  }
+	});
+	
+	
+	// WhatsApp
+	document.getElementById('send-whatsapp').addEventListener('click', () => {
+	  const name = document.getElementById('name').value;
+	  const date = document.getElementById('date').value;
+	  const graves = Array.from(document.querySelectorAll('#mode-cards .card'))
+	    .map(card => `*${card.querySelector('h3').innerText}*: ${card.querySelector('p strong').innerText} – ${card.querySelector('p em').innerText}`)
+	    .join('%0A');
+	
+	  const msg = `📋 *SMI 1.1 – Inventário de Modos Esquemáticos*%0A
+	👤 Nome: *${name}*%0A
+	📅 Data: *${date}*%0A
+	🧠 *Modos com gravidade identificada:*%0A${graves}%0A
+	📌 Esses modos serão trabalhados em sessão terapêutica para promover alívio e transformação.`;
+	
+	  const phone = '5535984640729';
+	  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+	});
+	
+	
+	function initApp() {
+	  renderQuestions();
+	  document.getElementById('smi-form').onsubmit = e => {
+	    e.preventDefault();
+	    const ans = collectAnswers();
+	    if (!validateAnswers(ans)) {
+	      const first = ans.findIndex(v => v === null) + 1;
+	      document.getElementById(`q${first}`)
+	        .scrollIntoView({ behavior:'smooth', block:'center' });
+	      return alert('Por favor, responda todas as perguntas.');
+	    }
+	    showResults(calculateResults(ans));
+	  };
+	
+	  // Esconde botões até resultados aparecerem
+	  document.getElementById('send-whatsapp').style.display = 'none';
+	  document.getElementById('download-pdf').style.display = 'none';
+	}
+	
+	document.addEventListener('DOMContentLoaded', () => {
+	  initApp();
+	  setTimeout(() => {
+	    document.getElementById('splash').classList.add('hidden');
+	    document.getElementById('mainContent').classList.add('show');
+	  }, 2000);
+	  document.getElementById('darkModeToggle')
+	    .addEventListener('click', () => document.body.classList.toggle('dark'));
+	});
+	
+</script>
+</body>
+
+</html>
