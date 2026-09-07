@@ -1,0 +1,43 @@
+name: Remover splash v2
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/remove-splash-v2.yml']
+permissions:
+  contents: write
+jobs:
+  sanitize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove splash without changing questionnaire
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html'); s=p.read_text(encoding='utf-8'); before=s
+          s=re.sub(r'\s*/\*\s*Splash\s*\*/\s*#splash\s*\{.*?\}\s*#splash\.hidden\s*\{.*?\}\s*', '\n', s, count=1, flags=re.S|re.I)
+          s=re.sub(r'\s*<!--\s*Splash\s*-->\s*<div\s+id=["\']splash["\'][^>]*>.*?</div>\s*', '\n', s, count=1, flags=re.S|re.I)
+          s=s.replace('<main id="mainContent" class="container visible"','<main id="mainContent" class="container show visible"',1)
+          if s==before: raise SystemExit('NO_SPLASH_CHANGE')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Contract check
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('index.html').read_text(encoding='utf-8')
+          if re.search(r'id=["\']splash|#splash',s,re.I): raise SystemExit('SPLASH_RESIDUE')
+          if 'id="mainContent" class="container show visible"' not in s: raise SystemExit('MAIN_NOT_VISIBLE')
+          if 'id="smi-form"' not in s or 'id="questions"' not in s: raise SystemExit('QUESTIONNAIRE_STRUCTURE_CHANGED')
+          PY
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Remove splash e abre diretamente no rastreio'
+          git push
