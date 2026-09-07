@@ -644,8 +644,8 @@
 	  document.addEventListener('DOMContentLoaded', () => {
 	    initApp();
 	    setTimeout(() => {
-	      document.getElementById('splash').classList.add('hidden');
-	      document.getElementById('mainContent').classList.add('show');
+	      document.getElementById('splash')?.classList.add('hidden');
+	      document.getElementById('mainContent')?.classList.add('show');
 	    }, 2000);
 	    document.getElementById('darkModeToggle')
 	      .addEventListener('click', () => document.body.classList.toggle('dark'));
