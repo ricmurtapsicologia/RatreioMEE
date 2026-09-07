@@ -23,7 +23,7 @@
 	<meta property="og:locale" content="pt_BR">
 	<meta property="og:url" content="https://ricmurtapsicologia.github.io/rastreiomodosesquematicos/">
 	<meta property="og:title" content="SMI 1.1 – Inventário de Modos Esquemáticos">
-	<meta property="og:description" content="Entenda seus padrões emocionais e modos disfuncionais com base na Terapia dos Esquemas. Resultados visuais, PDF personalizado e envio via WhatsApp.">
+	<meta property="og:description" content="Entenda seus padrões emocionais e modos disfuncionais com base na Terapia dos Esquemas. Resultados destinados à análise clínica pelo psicólogo responsável.">
 	<meta property="og:image" content="https://i.pinimg.com/736x/58/93/ad/5893ad216808cad704a9071a84e53fe0.jpg">
 	<!-- 8. Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image">
@@ -42,7 +42,6 @@
 		  --text:       #333;
 		  --text-light: #fff;
 		  --neutral:    #e0e0e0;
-		  --whatsapp:   #25d366;
 		  --pdf:        #d32f2f;
 		  --shadow:     rgba(0,0,0,0.15);
 		  --gap:        1rem;
@@ -177,7 +176,6 @@
 		  transform: scale(1.05);
 		}
 		#btn-gerar        { background: var(--accent); }
-		#send-whatsapp    { background: var(--whatsapp); }
 		#download-pdf     { background: var(--pdf); }
 		
 		/* Results Cards */
@@ -269,9 +267,7 @@
 			<div class="actions">
 				<button type="submit" id="btn-gerar">
 					<span aria-hidden="true">📊</span> Gerar Resultados </button>
-				<button type="button" id="send-whatsapp" class="hidden">
-					<span aria-hidden="true">💬</span> Enviar ao Psicólogo </button>
-				<button type="button" id="download-pdf" class="hidden">
+<button type="button" id="download-pdf" class="hidden">
 					<span aria-hidden="true">📄</span> Baixar PDF </button>
 			</div>
 		</form>
@@ -490,7 +486,6 @@
 	  const $results     = document.getElementById('results');
 	  const $modeCards   = document.getElementById('mode-cards');
 	  const $summary     = document.getElementById('summary');
-	  const $btnWhatsApp = document.getElementById('send-whatsapp');
 	  const $btnPDF      = document.getElementById('download-pdf');
 	  const $form        = document.getElementById('smi-form');
 	  const $nameInput   = document.getElementById('name');
@@ -556,7 +551,7 @@
 	    );
 	
 	    $results.style.display = 'block';
-	    $btnWhatsApp.style.display = $btnPDF.style.display = 'inline-block';
+	    $btnPDF.style.display = 'inline-block';
 	
 	    $summary.innerText = graves.length
 	      ? `Modos esquemáticos disfuncionais identificados: ${graves.length}.`
@@ -625,23 +620,7 @@
 	      );
 	    }
 	  };
-	
-	  // Função de envio via WhatsApp
-	  const sendWhatsApp = () => {
-	    const name = $nameInput.value, date = $dateInput.value;
-	    const graves = Array.from(document.querySelectorAll('#mode-cards .card'))
-	      .map(c=>`*${c.querySelector('h3').innerText}*: ${c.querySelector('p strong').innerText} – ${c.querySelector('p em').innerText}`)
-	      .join('%0A');
-	    const msg =
-	      `📋 *SMI 1.1 – Inventário de Modos Esquemáticos*%0A`+
-	      `👤 Nome: *${name}*%0A`+
-	      `📅 Data: *${date}*%0A`+
-	      `🧠 *Modos com gravidade identificada:*%0A${graves}%0A`+
-	      `📌 Esses modos serão trabalhados em sessão terapêutica para promover alívio e transformação.`;
-	    window.open(`https://wa.me/5535984640729?text=${msg}`,'_blank');
-	  };
-	
-	  // Inicialização
+// Inicialização
 	  const initApp = () => {
 	    renderQuestions();
 	    $form.onsubmit = e => {
@@ -655,8 +634,7 @@
 	      showResults(calculateResults(ans));
 	    };
 	    $btnPDF.addEventListener('click', generatePDF);
-	    $btnWhatsApp.addEventListener('click', sendWhatsApp);
-	    $btnPDF.style.display = $btnWhatsApp.style.display = 'none';
+	    $btnPDF.style.display = 'none';
 	  };
 	
 	  document.addEventListener('DOMContentLoaded', () => {
