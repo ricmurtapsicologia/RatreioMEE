@@ -1,0 +1,33 @@
+name: Fix missing stylesheet RC
+on:
+  push:
+    branches: [rastreios-rc-20260907]
+    paths: ['.github/workflows/fix-missing-styles-rc.yml']
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rastreios-rc-20260907
+      - name: Remove dead stylesheet references
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('\t<link rel="preload" href="styles.css" as="style">\n','')
+          s=s.replace('\t<link rel="stylesheet" href="styles.css">\n','')
+          if 'href="styles.css"' in s:
+            raise SystemExit('DEAD_STYLESHEET_REFERENCE_REMAINS')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Remove referência inexistente a styles.css'
+          git push
