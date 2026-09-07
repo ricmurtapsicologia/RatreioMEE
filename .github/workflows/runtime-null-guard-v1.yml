@@ -1,3 +1,4 @@
+# Trigger lifecycle null guard
 name: Runtime Null Guard v1
 
 on:
