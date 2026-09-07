@@ -87,22 +87,7 @@
 		body.dark #darkModeToggle {
 		  color: var(--text-light);
 		}
-		
-		/* Splash */
-		#splash {
-		  position: fixed; inset: 0;
-		  background: var(--accent); color: var(--text-light);
-		  display: flex; flex-direction: column;
-		  align-items: center; justify-content: center;
-		  gap: var(--gap); text-align: center;
-		  transition: opacity var(--trans), visibility var(--trans);
-		  z-index: 1000;
-		}
-		#splash.hidden {
-		  opacity: 0; visibility: hidden;
-		}
-		
-		/* Hero */
+/* Hero */
 		.hero {
 		  display: flex; justify-content: center; align-items: center;
 		  margin: var(--gap) 0; padding: 0 var(--gap);
@@ -249,13 +234,8 @@
 <body>
 	<!-- Tema -->
 	<button id="darkModeToggle" class="theme-toggle" aria-label="Ativar ou desativar modo escuro">🌙</button>
-	<!-- Splash -->
-	<div id="splash" role="status" aria-live="polite" class="splash">
-		<h1>Bem-vindo ao SMI 1.1</h1>
-		<p>Carregando avaliação…</p>
-	</div>
-	<!-- Conteúdo -->
-	<main id="mainContent" class="container visible" tabindex="-1">
+<!-- Conteúdo -->
+	<main id="mainContent" class="container show visible" tabindex="-1">
 		<!-- Hero -->
 		<section class="hero" aria-label="Imagem de destaque">
 			<img src="https://i.pinimg.com/736x/58/93/ad/5893ad216808cad704a9071a84e53fe0.jpg" alt="Saúde emocional e modos esquemáticos" class="hero-img" />
