@@ -1,0 +1,49 @@
+name: Remover WhatsApp de resultados v2
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/remove-whatsapp-v2.yml']
+permissions:
+  contents: write
+jobs:
+  sanitize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove result sharing without changing questionnaire or scorer
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html'); s=p.read_text(encoding='utf-8'); before=s
+          s=s.replace('Resultados visuais, PDF personalizado e envio via WhatsApp.','Resultados destinados à análise clínica pelo psicólogo responsável.')
+          s=re.sub(r'\s*--whatsapp:\s*#[0-9A-Fa-f]+;','',s,count=1)
+          s=re.sub(r'\s*#send-whatsapp\s*\{[^}]*\}', '', s, count=1, flags=re.S|re.I)
+          s=re.sub(r'\s*<button\s+type=["\']button["\']\s+id=["\']send-whatsapp["\'][^>]*>.*?</button>\s*','\n',s,count=1,flags=re.S|re.I)
+          s=re.sub(r"\s*const\s+\$btnWhatsApp\s*=\s*document\.getElementById\(['\"]send-whatsapp['\"]\);",'',s,count=1)
+          s=s.replace("$btnWhatsApp.style.display = $btnPDF.style.display = 'inline-block';", "$btnPDF.style.display = 'inline-block';")
+          s=re.sub(r'\s*//\s*Função de envio via WhatsApp\s*const\s+sendWhatsApp\s*=\s*\(\)\s*=>\s*\{.*?\n\s*\};\s*','\n',s,count=1,flags=re.S|re.I)
+          s=re.sub(r"\s*\$btnWhatsApp\.addEventListener\(['\"]click['\"],\s*sendWhatsApp\);",'',s,count=1)
+          s=s.replace("$btnPDF.style.display = $btnWhatsApp.style.display = 'none';", "$btnPDF.style.display = 'none';")
+          if s==before: raise SystemExit('NO_WHATSAPP_CHANGE')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Contract check
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('index.html').read_text(encoding='utf-8')
+          if re.search(r'wa\.me|send-whatsapp|btnWhatsApp|sendWhatsApp|envio via WhatsApp',s,re.I): raise SystemExit('WHATSAPP_RESULT_RESIDUE')
+          for marker in ['id="smi-form"','id="questions"','const questions = [','const modes = [','const calculateResults']:
+              if marker not in s: raise SystemExit('QUESTIONNAIRE_STRUCTURE_CHANGED:'+marker)
+          PY
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Remove envio de resultados por WhatsApp'
+          git push
