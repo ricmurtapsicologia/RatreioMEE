@@ -1,0 +1,31 @@
+name: Sanitize screening v5
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/sanitize-screening-v5.yml']
+permissions: {contents: write}
+env:
+  CANONICAL_NAME: 'Modos Esquemáticos'
+  HERO_ID: 'modos'
+jobs:
+  sanitize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Saneamento
+        run: |
+          python3 - <<'PY'
+          import os,re,json,pathlib
+          p=pathlib.Path('index.html');s=p.read_text(encoding='utf-8');name=os.environ['CANONICAL_NAME'];hid=os.environ['HERO_ID'];hero=f'https://ricmurtapsicologia.github.io/Inicio-de-Jornada-Terapeutica/assets/heroes/{hid}.jpg?v=5.0.0'
+          s,nhead=re.subn(r'(?is)(<body\b[^>]*>\s*)<header\b[^>]*>.*?</header>',r'\1',s,count=1)
+          s=re.sub(r'(?is)<title>.*?</title>',f'<title>{name}</title>',s,count=1)
+          for prop,val,attr in [('og:title',name,'property'),('og:image',hero,'property'),('twitter:title',name,'name'),('twitter:image',hero,'name')]:
+            pat=rf'(?is)<meta\b[^>]*?{attr}=["\']{re.escape(prop)}["\'][^>]*?>';tag=f'<meta {attr}="{prop}" content="{val}"/>';s,n=re.subn(pat,tag,s,count=1);s=s if n else s.replace('</head>',tag+'\n</head>',1)
+          s=re.sub(r'(screening-uniformity-v1\.(?:css|js))\?v=[^"\']+',r'\1?v=5.0.0',s);p.write_text(s,encoding='utf-8')
+          pathlib.Path('audits').mkdir(exist_ok=True);pathlib.Path('audits/visual-sanitize-v5.json').write_text(json.dumps({'version':'5.0.0','instrument':hid,'canonicalName':name,'legacyTopHeaderRemoved':bool(nhead),'canonicalHero':hero},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - name: Gate
+        run: grep -q 'screening-uniformity-v1.css?v=5.0.0' index.html && grep -q 'assets/heroes/modos.jpg?v=5.0.0' index.html
+      - name: Commit
+        run: |
+          rm -f .github/workflows/sanitize-screening-v5.yml;git config user.name 'github-actions[bot]';git config user.email '41898282+github-actions[bot]@users.noreply.github.com';git add -A;git diff --cached --quiet || git commit -m 'chore(rastreio): remove header/hero legado e alinha naming v5';git push
