@@ -1,0 +1,18 @@
+{
+  "instrument": "modos",
+  "title": "SMI 1.1 — Inventário de Modos Esquemáticos",
+  "canonicalHero": "https://ricmurtapsicologia.github.io/Inicio-de-Jornada-Terapeutica/assets/heroes/modos.jpg?v=4.0.0",
+  "before": {
+    "pinimg": 4,
+    "unsplash": 0,
+    "pexels": 0,
+    "pixabay": 0,
+    "localLegacySrc": 0
+  },
+  "after": {
+    "pinimg": 0,
+    "unsplash": 0,
+    "pexels": 0,
+    "pixabay": 0
+  }
+}
